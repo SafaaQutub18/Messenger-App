@@ -9,13 +9,18 @@
 /* Begin PBXBuildFile section */
 		C31BF788272945F400E78463 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31BF787272945F400E78463 /* AppDelegate.swift */; };
 		C31BF78A272945F400E78463 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31BF789272945F400E78463 /* SceneDelegate.swift */; };
-		C31BF78C272945F400E78463 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31BF78B272945F400E78463 /* ViewController.swift */; };
+		C31BF78C272945F400E78463 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31BF78B272945F400E78463 /* LogInViewController.swift */; };
 		C31BF78F272945F400E78463 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C31BF78D272945F400E78463 /* Main.storyboard */; };
 		C31BF791272945F500E78463 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C31BF790272945F500E78463 /* Assets.xcassets */; };
 		C31BF794272945F500E78463 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C31BF792272945F500E78463 /* LaunchScreen.storyboard */; };
 		C31BF79F272945F600E78463 /* MessengerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31BF79E272945F600E78463 /* MessengerTests.swift */; };
 		C31BF7A9272945F600E78463 /* MessengerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31BF7A8272945F600E78463 /* MessengerUITests.swift */; };
 		C31BF7AB272945F600E78463 /* MessengerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31BF7AA272945F600E78463 /* MessengerUITestsLaunchTests.swift */; };
+		C31BF7BE2729694000E78463 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31BF7BD2729694000E78463 /* RegistrationViewController.swift */; };
+		C31BF7C12729698900E78463 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31BF7C02729698900E78463 /* ConversationViewController.swift */; };
+		C31BF7C3272969AA00E78463 /* NewConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31BF7C2272969AA00E78463 /* NewConversationViewController.swift */; };
+		C31BF7C6272969E700E78463 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31BF7C5272969E700E78463 /* ProfileViewController.swift */; };
+		C31BF7C827296AE800E78463 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31BF7C727296AE800E78463 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,7 +44,7 @@
 		C31BF784272945F400E78463 /* Messenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Messenger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C31BF787272945F400E78463 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C31BF789272945F400E78463 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C31BF78B272945F400E78463 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C31BF78B272945F400E78463 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		C31BF78E272945F400E78463 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C31BF790272945F500E78463 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C31BF793272945F500E78463 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -49,6 +54,11 @@
 		C31BF7A4272945F600E78463 /* MessengerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MessengerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C31BF7A8272945F600E78463 /* MessengerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerUITests.swift; sourceTree = "<group>"; };
 		C31BF7AA272945F600E78463 /* MessengerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		C31BF7BD2729694000E78463 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		C31BF7C02729698900E78463 /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
+		C31BF7C2272969AA00E78463 /* NewConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationViewController.swift; sourceTree = "<group>"; };
+		C31BF7C5272969E700E78463 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		C31BF7C727296AE800E78463 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,12 +109,11 @@
 		C31BF786272945F400E78463 /* Messenger */ = {
 			isa = PBXGroup;
 			children = (
-				C31BF787272945F400E78463 /* AppDelegate.swift */,
-				C31BF789272945F400E78463 /* SceneDelegate.swift */,
-				C31BF78B272945F400E78463 /* ViewController.swift */,
-				C31BF78D272945F400E78463 /* Main.storyboard */,
-				C31BF790272945F500E78463 /* Assets.xcassets */,
-				C31BF792272945F500E78463 /* LaunchScreen.storyboard */,
+				C31BF7C4272969CD00E78463 /* Profile */,
+				C31BF7BB2729687000E78463 /* Controller */,
+				C31BF7BA2729686200E78463 /* Models */,
+				C31BF7B82729681700E78463 /* Views */,
+				C31BF7B72729677600E78463 /* Resourses */,
 				C31BF795272945F500E78463 /* Info.plist */,
 			);
 			path = Messenger;
@@ -125,6 +134,76 @@
 				C31BF7AA272945F600E78463 /* MessengerUITestsLaunchTests.swift */,
 			);
 			path = MessengerUITests;
+			sourceTree = "<group>";
+		};
+		C31BF7B72729677600E78463 /* Resourses */ = {
+			isa = PBXGroup;
+			children = (
+				C31BF787272945F400E78463 /* AppDelegate.swift */,
+				C31BF789272945F400E78463 /* SceneDelegate.swift */,
+				C31BF7C727296AE800E78463 /* Extensions.swift */,
+			);
+			path = Resourses;
+			sourceTree = "<group>";
+		};
+		C31BF7B82729681700E78463 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C31BF790272945F500E78463 /* Assets.xcassets */,
+				C31BF7B92729682800E78463 /* Storyboards */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C31BF7B92729682800E78463 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				C31BF78D272945F400E78463 /* Main.storyboard */,
+				C31BF792272945F500E78463 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		C31BF7BA2729686200E78463 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C31BF7BB2729687000E78463 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C31BF7BF2729695E00E78463 /* Conversation */,
+				C31BF7BC272968C200E78463 /* Authentication */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		C31BF7BC272968C200E78463 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				C31BF78B272945F400E78463 /* LogInViewController.swift */,
+				C31BF7BD2729694000E78463 /* RegistrationViewController.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		C31BF7BF2729695E00E78463 /* Conversation */ = {
+			isa = PBXGroup;
+			children = (
+				C31BF7C02729698900E78463 /* ConversationViewController.swift */,
+				C31BF7C2272969AA00E78463 /* NewConversationViewController.swift */,
+			);
+			path = Conversation;
+			sourceTree = "<group>";
+		};
+		C31BF7C4272969CD00E78463 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				C31BF7C5272969E700E78463 /* ProfileViewController.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,8 +337,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C31BF78C272945F400E78463 /* ViewController.swift in Sources */,
+				C31BF7C3272969AA00E78463 /* NewConversationViewController.swift in Sources */,
+				C31BF78C272945F400E78463 /* LogInViewController.swift in Sources */,
 				C31BF788272945F400E78463 /* AppDelegate.swift in Sources */,
+				C31BF7C827296AE800E78463 /* Extensions.swift in Sources */,
+				C31BF7C12729698900E78463 /* ConversationViewController.swift in Sources */,
+				C31BF7C6272969E700E78463 /* ProfileViewController.swift in Sources */,
+				C31BF7BE2729694000E78463 /* RegistrationViewController.swift in Sources */,
 				C31BF78A272945F400E78463 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
