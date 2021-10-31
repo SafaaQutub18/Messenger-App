@@ -6,10 +6,19 @@
 //
 
 import UIKit
+import Firebase
 
 class RegistrationViewController: UIViewController {
 
     @IBOutlet weak var userImageBt: UIButton!
+    
+    @IBOutlet weak var firstNameTF: UITextField!
+    @IBOutlet weak var lastNameTF: UITextField!
+    @IBOutlet weak var emailTF: UITextField!
+    @IBOutlet weak var passwordTF: UITextField!
+    var userInfo : User?
+    var profileImage : String?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,8 +31,41 @@ class RegistrationViewController: UIViewController {
     @IBAction func userImageButton(_ sender: UIButton) {
         presentPhotoActionSheet()
     }
+    @IBAction func createAccountButton(_ sender: UIButton) {
+        if let firstName = firstNameTF.text,  let lasttName = lastNameTF.text , let email = emailTF.text , let password = passwordTF.text {
+            self.userInfo =  User(userName: firstName + " " +  lasttName
+                  , userEmail: email
+                  , userPassword: password,
+                  profileImageURL: ""
+        )
+            if let user = userInfo {
+                createUserAccount(userInformation : user)
+            }
+           
+        }
+    }
 }
-
+extension RegistrationViewController {
+    func createUserAccount(userInformation: User){
+        
+        FirebaseAuth.Auth.auth().createUser(withEmail: userInformation.userEmail, password: userInformation.userPassword, completion: { authResult , error  in
+            guard let result = authResult, error == nil else {
+                print("Error creating user")
+                return
+            }
+            let user = result.user
+            print("Created User: \(user)")
+            
+            // go to conversation view controoler
+             if let conversationVC = self.storyboard?.instantiateViewController(identifier: "ConversationViewController") as? ConversationViewController {
+                 self.navigationController?.pushViewController(conversationVC , animated: true)
+                
+             }
+         })
+        
+        
+}
+}
 
 extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     // get results of user taking picture or selecting from camera roll
@@ -64,6 +106,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
             return
         }
         DispatchQueue.main.async {
+            
             self.userImageBt.setImage(selectedImage, for: .normal)
         }
 

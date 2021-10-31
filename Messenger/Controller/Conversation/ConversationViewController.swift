@@ -6,24 +6,35 @@
 //
 
 import UIKit
-
+import FirebaseAuth
 class ConversationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "space back.jpeg")!)
+        
+              do {
+                  try FirebaseAuth.Auth.auth().signOut()
+              }
+              catch {
+              }
+          }
+          override func viewDidAppear(_ animated: Bool) {
+              super.viewDidAppear(animated)
+        
+              validateAuth()
+          }
+          
+          private func validateAuth(){
+              // current user is set automatically when you log a user in
+              if FirebaseAuth.Auth.auth().currentUser == nil {
+                  // present login view controller
+                  let vc = LogInViewController()
+                  let nav = UINavigationController(rootViewController: vc)
+                  nav.modalPresentationStyle = .fullScreen
+                  present(nav, animated: false)
+              }
+          }
 
 }
