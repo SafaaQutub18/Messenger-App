@@ -126,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				C31BF7C92729DBE500E78463 /* xcode fonts */,
+				C3639F43272E7AEC0018710F /* GoogleService-Info.plist */,
 				C31BF7C4272969CD00E78463 /* Profile */,
 				C31BF7BB2729687000E78463 /* Controller */,
 				C31BF7BA2729686200E78463 /* Models */,
@@ -184,7 +185,6 @@
 		C31BF7BA2729686200E78463 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				C3639F43272E7AEC0018710F /* GoogleService-Info.plist */,
 				C3639F47272F1DDC0018710F /* DatabaseManager.swift */,
 			);
 			path = Models;

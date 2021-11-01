@@ -7,16 +7,11 @@
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="Carlo Melow Sans by 7NTypes.otf">
-            <string>CarloMelowSans</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Log In View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="LogInViewController" customModule="Messenger" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LogInViewController" id="BYZ-38-t0r" customClass="LogInViewController" customModule="Messenger" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -32,7 +27,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="70" id="as9-Z3-IK9"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="CarloMelowSans" family="Carlo Melow Sans" pointSize="42"/>
+                                        <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="42"/>
                                         <color key="textColor" red="0.53051763770000004" green="0.43323463200000001" blue="0.65468108650000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -325,9 +320,12 @@
                                                             <constraint firstAttribute="width" constant="90" id="CES-4N-Iza"/>
                                                         </constraints>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                        <state key="normal" title="Sign up">
+                                                        <state key="normal" title="Sign in">
                                                             <color key="titleColor" red="0.67828418229999998" green="0.42775471139999999" blue="0.54541416590000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="signInButtonPressed:" destination="AZr-Sx-nPx" eventType="touchUpInside" id="oLa-sT-ZYV"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <color key="tintColor" red="0.90102207660675049" green="0.89184373617172241" blue="0.97179335355758667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -364,7 +362,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rMz-sf-sNE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2557.971014492754" y="117.85714285714285"/>
+            <point key="canvasLocation" x="1657" y="118"/>
         </scene>
         <!--Conversation View Controller-->
         <scene sceneID="wdI-v6-shd">
@@ -379,7 +377,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kht-Sd-lpg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3252.1739130434785" y="111.83035714285714"/>
+            <point key="canvasLocation" x="2459" y="118"/>
         </scene>
         <!--New Conversation View Controller-->
         <scene sceneID="JSL-hW-zsV">
@@ -428,24 +426,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o2N-vs-6R7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-36.231884057971016" y="117.85714285714285"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="kxp-ib-xeG">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="Vsw-hu-B40" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <nil key="simulatedTopBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="CDT-EM-fKC">
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="AZr-Sx-nPx" kind="relationship" relationship="rootViewController" id="taO-ib-mVq"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ea1-nn-U1u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1647.826086956522" y="117.85714285714285"/>
         </scene>
     </scenes>
     <resources>

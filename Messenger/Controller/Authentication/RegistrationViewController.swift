@@ -1,3 +1,4 @@
+
 //
 //  RegistrationViewController.swift
 //  Messenger
@@ -16,6 +17,9 @@ class RegistrationViewController: UIViewController {
     @IBOutlet weak var lastNameTF: UITextField!
     @IBOutlet weak var emailTF: UITextField!
     @IBOutlet weak var passwordTF: UITextField!
+    
+    var userID = Auth.auth().currentUser?.uid
+
     var userInfo : User?
     var profileImage : String?
     
@@ -28,18 +32,25 @@ class RegistrationViewController: UIViewController {
         userImageBt.layer.masksToBounds = true
     }
     
+    @IBAction func signInButtonPressed(_ sender: UIButton) {
+        let logInCV = storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as! LogInViewController
+       
+        self.navigationController?.popViewController(animated: true)
+    }
     @IBAction func userImageButton(_ sender: UIButton) {
         presentPhotoActionSheet()
     }
     @IBAction func createAccountButton(_ sender: UIButton) {
-        if let firstName = firstNameTF.text,  let lasttName = lastNameTF.text , let email = emailTF.text , let password = passwordTF.text {
-            self.userInfo =  User(userName: firstName + " " +  lasttName
+        if let firstName = firstNameTF.text,  let lastName = lastNameTF.text , let email = emailTF.text , let password = passwordTF.text {
+            userInfo =  User(userName: firstName + " " +  lastName
                   , userEmail: email
                   , userPassword: password,
                   profileImageURL: ""
+                
         )
             if let user = userInfo {
                 createUserAccount(userInformation : user)
+                
             }
            
         }
@@ -47,7 +58,7 @@ class RegistrationViewController: UIViewController {
 }
 extension RegistrationViewController {
     func createUserAccount(userInformation: User){
-        
+        print(userInformation.userEmail)
         FirebaseAuth.Auth.auth().createUser(withEmail: userInformation.userEmail, password: userInformation.userPassword, completion: { authResult , error  in
             guard let result = authResult, error == nil else {
                 print("Error creating user")
@@ -56,16 +67,28 @@ extension RegistrationViewController {
             let user = result.user
             print("Created User: \(user)")
             
+            // database:
+            let userChatObject = ChatAppUser(userName: userInformation.userName , emailAddress: userInformation.userEmail)
+            DatabaseManger.shared.insertUser(with: userChatObject) // call test!
+
+            
             // go to conversation view controoler
-             if let conversationVC = self.storyboard?.instantiateViewController(identifier: "ConversationViewController") as? ConversationViewController {
-                 self.navigationController?.pushViewController(conversationVC , animated: true)
-                
-             }
+            self.goToConversationsVC()
          })
         
         
 }
+    func goToConversationsVC(){
+        
+        if let conversationVC = self.storyboard?.instantiateViewController(identifier: "ConversationViewController") as? ConversationViewController {
+            //self.navigationController?.pushViewController(conversationVC , animated: true)
+            conversationVC.modalPresentationStyle = .fullScreen
+            self.present(conversationVC, animated: false)
+           
+        }
+    }
 }
+
 
 extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     // get results of user taking picture or selecting from camera roll
@@ -151,5 +174,3 @@ extension RegistrationViewController : UIImagePickerControllerDelegate & UINavig
         // Pass the selected object to the new view controller.
     }
     */
-
-
