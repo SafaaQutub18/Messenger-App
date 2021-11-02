@@ -16,7 +16,7 @@ class LogInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "space back2.jpeg")!)
+        //self.view.backgroundColor = UIColor(patternImage: UIImage(named: "space back 70p.png")!)
         
        
     }
@@ -39,7 +39,15 @@ class LogInViewController: UIViewController {
     
 }
 
-extension LogInViewController {
+extension LogInViewController : RegisterDelegate{
+    
+    func registerSuccesful() {
+        DispatchQueue.main.async {
+            self.goToConversationsVC()
+        }
+       
+    }
+    
     
     func userLogInAuthntication(){
         // Firebase Login
@@ -64,11 +72,11 @@ extension LogInViewController {
     }
     func goToConversationsVC(){
         
-        if let conversationVC = self.storyboard?.instantiateViewController(identifier: "ConversationViewController") as? ConversationViewController {
-            //self.navigationController?.pushViewController(conversationVC , animated: true)
-            conversationVC.modalPresentationStyle = .fullScreen
-            self.present(conversationVC, animated: false)
+         let conversationVC = storyboard?.instantiateViewController(identifier: "ConversationViewController") as! ConversationsViewController
+            self.navigationController?.pushViewController(conversationVC , animated: true)
+        //conversationVC!.modalPresentationStyle = .fullScreen
+        //present(conversationVC!, animated: false)
            
-        }
+        
     }
 }

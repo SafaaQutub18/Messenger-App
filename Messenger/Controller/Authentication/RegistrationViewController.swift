@@ -22,6 +22,7 @@ class RegistrationViewController: UIViewController {
 
     var userInfo : User?
     var profileImage : String?
+    var delegate : RegisterDelegate?
     
     
     override func viewDidLoad() {
@@ -73,14 +74,16 @@ extension RegistrationViewController {
 
             
             // go to conversation view controoler
-            self.goToConversationsVC()
+            self.delegate?.registerSuccesful()
+            self.navigationController?.popViewController(animated: true)
+            //self.goToConversationsVC()
          })
         
         
 }
     func goToConversationsVC(){
         
-        if let conversationVC = self.storyboard?.instantiateViewController(identifier: "ConversationViewController") as? ConversationViewController {
+        if let conversationVC = self.storyboard?.instantiateViewController(identifier: "ConversationViewController") as? ConversationsViewController {
             //self.navigationController?.pushViewController(conversationVC , animated: true)
             conversationVC.modalPresentationStyle = .fullScreen
             self.present(conversationVC, animated: false)
@@ -174,3 +177,8 @@ extension RegistrationViewController : UIImagePickerControllerDelegate & UINavig
         // Pass the selected object to the new view controller.
     }
     */
+
+
+protocol RegisterDelegate {
+    func registerSuccesful()
+}

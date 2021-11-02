@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "space back 30p.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

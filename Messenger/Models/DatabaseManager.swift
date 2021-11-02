@@ -63,7 +63,13 @@ extension DatabaseManger {
     
     /// Insert new user to database
     public func insertUser(with user: ChatAppUser){
-        database.child(user.safeEmail).setValue(["user_name":user.userName]
+        database.child(user.safeEmail).setValue(["user_name":user.userName] 
+            //userExists(with: user.safeEmail) { isInserted in
+            //if isInserted == true{
+            //   completion(result,nil)
+            //                                              }
+            //                                         }
+                                                
         )
        // userExists(with: user.safeEmail  )
         

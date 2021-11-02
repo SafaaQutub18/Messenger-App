@@ -17,8 +17,8 @@
 		C31BF7A9272945F600E78463 /* MessengerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31BF7A8272945F600E78463 /* MessengerUITests.swift */; };
 		C31BF7AB272945F600E78463 /* MessengerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31BF7AA272945F600E78463 /* MessengerUITestsLaunchTests.swift */; };
 		C31BF7BE2729694000E78463 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31BF7BD2729694000E78463 /* RegistrationViewController.swift */; };
-		C31BF7C12729698900E78463 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31BF7C02729698900E78463 /* ConversationViewController.swift */; };
-		C31BF7C3272969AA00E78463 /* NewConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31BF7C2272969AA00E78463 /* NewConversationViewController.swift */; };
+		C31BF7C12729698900E78463 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31BF7C02729698900E78463 /* ConversationsViewController.swift */; };
+		C31BF7C3272969AA00E78463 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31BF7C2272969AA00E78463 /* ChatViewController.swift */; };
 		C31BF7C6272969E700E78463 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31BF7C5272969E700E78463 /* ProfileViewController.swift */; };
 		C31BF7C827296AE800E78463 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31BF7C727296AE800E78463 /* Extensions.swift */; };
 		C31BF7CA2729DBE500E78463 /* xcode fonts in Resources */ = {isa = PBXBuildFile; fileRef = C31BF7C92729DBE500E78463 /* xcode fonts */; };
@@ -33,6 +33,11 @@
 		C3639F4E2730432B0018710F /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = C3639F4D2730432B0018710F /* JGProgressHUD */; };
 		C3A83DE9273111140095C10F /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C3A83DE8273111140095C10F /* RealmSwift */; };
 		C3A83DEC2731114A0095C10F /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = C3A83DEB2731114A0095C10F /* SDWebImage */; };
+		C3A83DEF273124920095C10F /* FacebookAEM in Frameworks */ = {isa = PBXBuildFile; productRef = C3A83DEE273124920095C10F /* FacebookAEM */; };
+		C3A83DF1273124920095C10F /* FacebookBasics in Frameworks */ = {isa = PBXBuildFile; productRef = C3A83DF0273124920095C10F /* FacebookBasics */; };
+		C3A83DF3273124920095C10F /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = C3A83DF2273124920095C10F /* FacebookCore */; };
+		C3A83DF5273124920095C10F /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = C3A83DF4273124920095C10F /* FacebookLogin */; };
+		C3A83DF7273124920095C10F /* FacebookShare in Frameworks */ = {isa = PBXBuildFile; productRef = C3A83DF6273124920095C10F /* FacebookShare */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,8 +72,8 @@
 		C31BF7A8272945F600E78463 /* MessengerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerUITests.swift; sourceTree = "<group>"; };
 		C31BF7AA272945F600E78463 /* MessengerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		C31BF7BD2729694000E78463 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
-		C31BF7C02729698900E78463 /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
-		C31BF7C2272969AA00E78463 /* NewConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationViewController.swift; sourceTree = "<group>"; };
+		C31BF7C02729698900E78463 /* ConversationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewController.swift; sourceTree = "<group>"; };
+		C31BF7C2272969AA00E78463 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		C31BF7C5272969E700E78463 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		C31BF7C727296AE800E78463 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C31BF7C92729DBE500E78463 /* xcode fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "xcode fonts"; sourceTree = "<group>"; };
@@ -82,12 +87,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3A83DEF273124920095C10F /* FacebookAEM in Frameworks */,
 				C31BF7CF272A019800E78463 /* FirebaseDatabase in Frameworks */,
 				C31BF7D3272A019800E78463 /* FirebaseStorage in Frameworks */,
+				C3A83DF7273124920095C10F /* FacebookShare in Frameworks */,
 				C3A83DEC2731114A0095C10F /* SDWebImage in Frameworks */,
+				C3A83DF3273124920095C10F /* FacebookCore in Frameworks */,
 				C3A83DE9273111140095C10F /* RealmSwift in Frameworks */,
 				C31BF7CD272A019800E78463 /* FirebaseAuth in Frameworks */,
 				C31BF7D1272A019800E78463 /* FirebaseFirestore in Frameworks */,
+				C3A83DF5273124920095C10F /* FacebookLogin in Frameworks */,
+				C3A83DF1273124920095C10F /* FacebookBasics in Frameworks */,
 				C3639F4E2730432B0018710F /* JGProgressHUD in Frameworks */,
 				C3639F4B273041A40018710F /* MessageKit in Frameworks */,
 			);
@@ -220,8 +230,8 @@
 		C31BF7BF2729695E00E78463 /* Conversation */ = {
 			isa = PBXGroup;
 			children = (
-				C31BF7C02729698900E78463 /* ConversationViewController.swift */,
-				C31BF7C2272969AA00E78463 /* NewConversationViewController.swift */,
+				C31BF7C02729698900E78463 /* ConversationsViewController.swift */,
+				C31BF7C2272969AA00E78463 /* ChatViewController.swift */,
 			);
 			path = Conversation;
 			sourceTree = "<group>";
@@ -259,6 +269,11 @@
 				C3639F4D2730432B0018710F /* JGProgressHUD */,
 				C3A83DE8273111140095C10F /* RealmSwift */,
 				C3A83DEB2731114A0095C10F /* SDWebImage */,
+				C3A83DEE273124920095C10F /* FacebookAEM */,
+				C3A83DF0273124920095C10F /* FacebookBasics */,
+				C3A83DF2273124920095C10F /* FacebookCore */,
+				C3A83DF4273124920095C10F /* FacebookLogin */,
+				C3A83DF6273124920095C10F /* FacebookShare */,
 			);
 			productName = Messenger;
 			productReference = C31BF784272945F400E78463 /* Messenger.app */;
@@ -338,6 +353,7 @@
 				C3639F4C2730432B0018710F /* XCRemoteSwiftPackageReference "JGProgressHUD" */,
 				C3A83DE7273111140095C10F /* XCRemoteSwiftPackageReference "realm-cocoa" */,
 				C3A83DEA2731114A0095C10F /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				C3A83DED273124920095C10F /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
 			);
 			productRefGroup = C31BF785272945F400E78463 /* Products */;
 			projectDirPath = "";
@@ -384,12 +400,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C31BF7C3272969AA00E78463 /* NewConversationViewController.swift in Sources */,
+				C31BF7C3272969AA00E78463 /* ChatViewController.swift in Sources */,
 				C31BF78C272945F400E78463 /* LogInViewController.swift in Sources */,
 				C3639F48272F1DDC0018710F /* DatabaseManager.swift in Sources */,
 				C31BF788272945F400E78463 /* AppDelegate.swift in Sources */,
 				C31BF7C827296AE800E78463 /* Extensions.swift in Sources */,
-				C31BF7C12729698900E78463 /* ConversationViewController.swift in Sources */,
+				C31BF7C12729698900E78463 /* ConversationsViewController.swift in Sources */,
 				C3639F46272EAC260018710F /* User.swift in Sources */,
 				C31BF7C6272969E700E78463 /* ProfileViewController.swift in Sources */,
 				C31BF7BE2729694000E78463 /* RegistrationViewController.swift in Sources */,
@@ -793,6 +809,14 @@
 				kind = branch;
 			};
 		};
+		C3A83DED273124920095C10F /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -835,6 +859,31 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C3A83DEA2731114A0095C10F /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImage;
+		};
+		C3A83DEE273124920095C10F /* FacebookAEM */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C3A83DED273124920095C10F /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookAEM;
+		};
+		C3A83DF0273124920095C10F /* FacebookBasics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C3A83DED273124920095C10F /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookBasics;
+		};
+		C3A83DF2273124920095C10F /* FacebookCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C3A83DED273124920095C10F /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookCore;
+		};
+		C3A83DF4273124920095C10F /* FacebookLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C3A83DED273124920095C10F /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookLogin;
+		};
+		C3A83DF6273124920095C10F /* FacebookShare */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C3A83DED273124920095C10F /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookShare;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
