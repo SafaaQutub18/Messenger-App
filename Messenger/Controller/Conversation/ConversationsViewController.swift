@@ -19,6 +19,7 @@ class ConversationsViewController: UIViewController {
         self.title = "Chat"
         
         tableView.dataSource = self
+        tableView.delegate = self
  
           }
           override func viewDidAppear(_ animated: Bool) {
@@ -33,7 +34,15 @@ class ConversationsViewController: UIViewController {
                   self.navigationController?.popViewController(animated: true)
               }
           }
-
+    @IBAction func logOutButton(_ sender: UIButton) {
+        do {
+               try FirebaseAuth.Auth.auth().signOut()
+            self.navigationController?.popViewController(animated: true)
+           }
+           catch {
+           }
+    }
+    
 }
 
 extension ConversationsViewController : UITableViewDelegate, UITableViewDataSource {
@@ -44,17 +53,17 @@ extension ConversationsViewController : UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell", for: indexPath)
         cell.textLabel?.text = "Hello World"
-               cell.accessoryType = .disclosureIndicator
+        cell.accessoryType = .disclosureIndicator
         return cell
     }
     
     // when user taps on a cell, we want to push the chat screen onto the stack
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             tableView.deselectRow(at: indexPath, animated: true)
-            let vc = ChatViewController()
-                    vc.title = "Jenny Smith"
-                    vc.navigationItem.largeTitleDisplayMode = .never
-                    navigationController?.pushViewController(vc, animated: true)
+            
+            let chatVC = storyboard?.instantiateViewController(identifier: "ChatViewController") as! ChatViewController
+            chatVC.title = "Jenny Smith"
+               self.navigationController?.pushViewController(chatVC , animated: true)
         }
     
     

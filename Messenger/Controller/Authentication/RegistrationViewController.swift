@@ -20,7 +20,7 @@ class RegistrationViewController: UIViewController {
     
     var userID = Auth.auth().currentUser?.uid
 
-    var userInfo : User?
+    var currentUser : User?
     var profileImage : String?
     var delegate : RegisterDelegate?
     
@@ -43,24 +43,23 @@ class RegistrationViewController: UIViewController {
     }
     @IBAction func createAccountButton(_ sender: UIButton) {
         if let firstName = firstNameTF.text,  let lastName = lastNameTF.text , let email = emailTF.text , let password = passwordTF.text {
-            userInfo =  User(userName: firstName + " " +  lastName
+            currentUser =  User(userName: firstName + " " +  lastName
                   , userEmail: email
                   , userPassword: password,
-                  profileImageURL: ""
-                
+                    profilePictureUrl: ""
         )
-            if let user = userInfo {
-                createUserAccount(userInformation : user)
+            
+                createUserAccount()
                 
-            }
+            
            
         }
     }
 }
 extension RegistrationViewController {
-    func createUserAccount(userInformation: User){
-        print(userInformation.userEmail)
-        FirebaseAuth.Auth.auth().createUser(withEmail: userInformation.userEmail, password: userInformation.userPassword, completion: { authResult , error  in
+    func createUserAccount(){
+        if let c_user = currentUser {
+        FirebaseAuth.Auth.auth().createUser(withEmail: c_user.userEmail, password: c_user.userPassword, completion: { authResult , error  in
             guard let result = authResult, error == nil else {
                 print("Error creating user")
                 return
@@ -69,27 +68,17 @@ extension RegistrationViewController {
             print("Created User: \(user)")
             
             // database:
-            let userChatObject = ChatAppUser(userName: userInformation.userName , emailAddress: userInformation.userEmail)
-            DatabaseManger.shared.insertUser(with: userChatObject) // call test!
+            DatabaseManger.shared.insertUser(with: c_user) // call insert!
 
             
             // go to conversation view controoler
             self.delegate?.registerSuccesful()
             self.navigationController?.popViewController(animated: true)
-            //self.goToConversationsVC()
+           
          })
-        
+        }
         
 }
-    func goToConversationsVC(){
-        
-        if let conversationVC = self.storyboard?.instantiateViewController(identifier: "ConversationViewController") as? ConversationsViewController {
-            //self.navigationController?.pushViewController(conversationVC , animated: true)
-            conversationVC.modalPresentationStyle = .fullScreen
-            self.present(conversationVC, animated: false)
-           
-        }
-    }
 }
 
 
@@ -142,41 +131,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
     }
     
 }
-/*
-extension RegistrationViewController : UIImagePickerControllerDelegate & UINavigationControllerDelegate  {
-    
-    
-    func imagePick() {
-        let imagePickerVC = UIImagePickerController()
-               imagePickerVC.sourceType = .photoLibrary
-               imagePickerVC.delegate = self // new
-        DispatchQueue.main.async {
-            self.present(imagePickerVC, animated: true)
-        }
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
-        picker.dismiss(animated: true, completion: nil)
 
-        if let image = info[.originalImage] as? UIImage {
-           // selectedImage = image
-            DispatchQueue.main.async {
-                self.userImageBt.setImage(image, for: .normal)
-            }
-            }
-        
-    }
-*/
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 
 protocol RegisterDelegate {

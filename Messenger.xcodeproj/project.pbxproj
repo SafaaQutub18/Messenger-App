@@ -27,7 +27,6 @@
 		C31BF7D1272A019800E78463 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C31BF7D0272A019800E78463 /* FirebaseFirestore */; };
 		C31BF7D3272A019800E78463 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C31BF7D2272A019800E78463 /* FirebaseStorage */; };
 		C3639F44272E7AEC0018710F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3639F43272E7AEC0018710F /* GoogleService-Info.plist */; };
-		C3639F46272EAC260018710F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3639F45272EAC260018710F /* User.swift */; };
 		C3639F48272F1DDC0018710F /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3639F47272F1DDC0018710F /* DatabaseManager.swift */; };
 		C3639F4B273041A40018710F /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = C3639F4A273041A40018710F /* MessageKit */; };
 		C3639F4E2730432B0018710F /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = C3639F4D2730432B0018710F /* JGProgressHUD */; };
@@ -78,7 +77,6 @@
 		C31BF7C727296AE800E78463 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C31BF7C92729DBE500E78463 /* xcode fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "xcode fonts"; sourceTree = "<group>"; };
 		C3639F43272E7AEC0018710F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		C3639F45272EAC260018710F /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C3639F47272F1DDC0018710F /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -222,7 +220,6 @@
 			children = (
 				C31BF78B272945F400E78463 /* LogInViewController.swift */,
 				C31BF7BD2729694000E78463 /* RegistrationViewController.swift */,
-				C3639F45272EAC260018710F /* User.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -406,7 +403,6 @@
 				C31BF788272945F400E78463 /* AppDelegate.swift in Sources */,
 				C31BF7C827296AE800E78463 /* Extensions.swift in Sources */,
 				C31BF7C12729698900E78463 /* ConversationsViewController.swift in Sources */,
-				C3639F46272EAC260018710F /* User.swift in Sources */,
 				C31BF7C6272969E700E78463 /* ProfileViewController.swift in Sources */,
 				C31BF7BE2729694000E78463 /* RegistrationViewController.swift in Sources */,
 				C31BF78A272945F400E78463 /* SceneDelegate.swift in Sources */,
