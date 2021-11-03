@@ -44,9 +44,9 @@ class RegistrationViewController: UIViewController {
     @IBAction func createAccountButton(_ sender: UIButton) {
         if let firstName = firstNameTF.text,  let lastName = lastNameTF.text , let email = emailTF.text , let password = passwordTF.text {
             currentUser =  User(userName: firstName + " " +  lastName
-                  , userEmail: email
-                  , userPassword: password,
-                    profilePictureUrl: ""
+            , userEmail: email
+            , userPassword: password,
+            profilePictureUrl: ""
         )
             
                 createUserAccount()
@@ -58,8 +58,10 @@ class RegistrationViewController: UIViewController {
 }
 extension RegistrationViewController {
     func createUserAccount(){
+    
         if let c_user = currentUser {
-        FirebaseAuth.Auth.auth().createUser(withEmail: c_user.userEmail, password: c_user.userPassword, completion: { authResult , error  in
+            
+        Auth.auth().createUser(withEmail: c_user.userEmail, password: c_user.userPassword, completion: { authResult , error  in
             guard let result = authResult, error == nil else {
                 print("Error creating user")
                 return
@@ -68,18 +70,21 @@ extension RegistrationViewController {
             print("Created User: \(user)")
             
             // database:
-            DatabaseManger.shared.insertUser(with: c_user) // call insert!
-
-            
-            // go to conversation view controoler
-            self.delegate?.registerSuccesful()
-            self.navigationController?.popViewController(animated: true)
+            DatabaseManger.shared.insertUser(with: c_user , userID: user.uid) { isInserted in
+                if isInserted == true {
+                    // go to conversation view controoler
+                    self.delegate?.registerSuccesful()
+                    self.navigationController?.popViewController(animated: true)
+                }
+                else{ print("error") }
+            }
+           
            
          })
         }
-        
+        }
 }
-}
+
 
 
 extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {

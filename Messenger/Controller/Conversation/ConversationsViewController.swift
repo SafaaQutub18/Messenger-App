@@ -36,14 +36,18 @@ class ConversationsViewController: UIViewController {
           }
     @IBAction func logOutButton(_ sender: UIButton) {
         do {
-               try FirebaseAuth.Auth.auth().signOut()
-            self.navigationController?.popViewController(animated: true)
+            try FirebaseAuth.Auth.auth().signOut()
+            DispatchQueue.main.async {
+                self.navigationController?.popViewController(animated: true)
+            }
+            
            }
            catch {
            }
     }
     
 }
+
 
 extension ConversationsViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

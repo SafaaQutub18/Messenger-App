@@ -36,6 +36,7 @@ extension DatabaseManger {
     
     // have a completion handler because the function to get data out of the database is asynchrounous so we need a completion block
     
+  
     
     public func userExists(with email:String, completion: @escaping ((Bool) -> Void)) {
         // will return true if the user email does not exist
@@ -62,26 +63,14 @@ extension DatabaseManger {
     }
     
     /// Insert new user to database
-    public func insertUser(with user: User){
-        database.child(user.safeEmail).setValue(["user_name":user.userName] 
-            //userExists(with: user.safeEmail) { isInserted in
-            //if isInserted == true{
-            //   completion(result,nil)
-            //                                              }
-            //                                         }
-                                                
-        )
-       // userExists(with: user.safeEmail  )
+    public func insertUser(with user: User,userID: String, completion: @escaping (Bool) -> Void){
         
-        
-    }
-    /// Insert new user to database
-       public func insertUser(with user: User, completion: @escaping (Bool) -> Void){
-           let userDict : [String : String] = ["user_name":user.userName]
+        let userDict : [String : String] = ["email":user.safeEmail,"user_name":user.userName]
+        let userObj = [userID:userDict]
            // adding completion block here so once it's done writing to database, we want to upload the image
            
            // once user object is creatd, also append it to the user's collection
-           database.child(user.safeEmail).setValue(userDict) { error, _ in
+           database.child("users").setValue(userObj) { error, _ in
                guard error  == nil else {
                    print("failed to write to database")
                    completion(false)
@@ -98,31 +87,33 @@ extension DatabaseManger {
                            "email": user.safeEmail
                        ]
                        usersCollection.append(newElement)
-                       
-                       self.database.child("users").setValue(usersCollection) { error, _ in
-                           guard error == nil else {
-                               completion(false)
-                               return
-                           }
-                           completion(true)
-                       }
+                       completion(true)
+//                       self.database.child("users").setValue(usersCollection) { error, _ in
+//                           guard error == nil else {
+//                               completion(false)
+//                               return
+//                           }
+//                           completion(true)
+//                       }
                        
                    }else{
+                       completion(true)
                        // create that array
-                       let newCollection: [[String: String]] = [
-                           [
-                               "name": user.userName,
-                               "email": user.safeEmail
-                           ]
-                       ]
-                       self.database.child("users").setValue(newCollection) { error, _ in
-                           guard error == nil else {
-                               completion(false)
-                               return
-                           }
-                           completion(true)
-                       }
+//                       let newCollection: [[String: String]] = [
+//                           [
+//                               "name": user.userName,
+//                               "email": user.safeEmail
+//                           ]
+//                       ]
+//                       self.database.child("users").setValue(newCollection) { error, _ in
+//                           guard error == nil else {
+//                               completion(false)
+//                               return
+//                           }
+//                           completion(true)
+                     //  }
                    }
+                
                }
            }
        }
@@ -141,6 +132,8 @@ extension DatabaseManger {
        public enum DatabaseError: Error {
            case failedToFetch
        }
+    
+    
    }
 
 struct User {
