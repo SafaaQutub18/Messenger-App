@@ -9,6 +9,7 @@ import UIKit
 import MessageKit
 import InputBarAccessoryView
 import FirebaseAuth
+
 //// message model
 struct Message: MessageType {
     
@@ -16,6 +17,7 @@ struct Message: MessageType {
     public var messageId: String // id to de duplicate
     public var sentDate: Date // date time
     public var kind: MessageKind //
+    public var text:String
 }
 //// sender model
 struct Sender: SenderType {
@@ -25,76 +27,99 @@ struct Sender: SenderType {
 }
 
 class ChatViewController: MessagesViewController  {
+    var m : Message?
+    
   
     private func safeEmail(userEmail : String) -> String {
         var safeEmail = userEmail.replacingOccurrences(of: ".", with: "-")
         safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
-        return safeEmail
+        return safeEmail.lowercased()
     }
   
     public var otherUserEmail: String?
-    private var conversationId: String?
-    public var isNewConversation = false
-    private var messages = [Message]()
+    public var conversationId: String?
+    public var isNewConversation = true
+    public var messages = [Message]()
     
     private var selfSender: Sender? {
-        guard let userId = Auth.auth().currentUser?.uid else {
-               // we cache the user email
-               return nil
-           }
-           return Sender(photoURL: "", senderId: userId, displayName: "Me")
-       }
-//
-//    init(with email: String, id: String?) {
-//           self.conversationId = id
-//           self.otherUserEmail = email
-//           super.init(nibName: nil, bundle: nil)
-//
-//    }
-//
-//        // creating a new conversation, there is no identifier
-
+        guard let email = UserDefaults.standard.value(forKey: UserKeyName.email) as? String else {
+                // we cache the user email
+                return nil
+        }
+        
+        let safeEmail = DatabaseManger.shared.safeEmail(userEmail: email)
+        return Sender(photoURL: "", senderId: safeEmail, displayName: "Me")
+    }
+    
+    // creating a new conversation, there is no identifier
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "space back 30p.png")!)
-        
             messagesCollectionView.messagesDataSource = self
             messagesCollectionView.messagesLayoutDelegate = self
             messagesCollectionView.messagesDisplayDelegate = self
             messageInputBar.delegate = self
     }
     
+     override func viewDidAppear(_ animated: Bool) {
+         super.viewDidAppear(animated)
+         messageInputBar.inputTextView.becomeFirstResponder()
+         
+//         if let conversationId = conversationId {
+//             listenForMessages(id:conversationId, shouldScrollToBottom: true)
+//         }
+     }
+    
     func insertMessage(messegeText : String ){
         let message_Id = createMessageId()
+        let sentDate = Self.dateFormatter.string(from: Date())
         
         if let self_Sender = selfSender , let messageId = message_Id  {
-        let message =  Message(sender: self_Sender, messageId: messageId, sentDate: Date(), kind: .text(messegeText))
+            let message =  Message(sender: self_Sender, messageId: messageId, sentDate:sentDate  , kind: .text(messegeText), text: messegeText)
         messages.append(message)
         print(message)
         messagesCollectionView.reloadData()
         messagesCollectionView.scrollToLastItem()
 
-//            if isNewConversation {
-//                       // create convo in database
-//                       // message ID should be a unique ID for the given message, unique for all the message
-//                       // use random string or random number
-//                       DatabaseManger.shared.createNewConversation(with: otherUserEmail, name: self.title ?? "User", firstMessage: message) { [weak self] success in
-//                           if success {
-//                               print("message sent")
-//                               self?.isNewConversation = false
-//                           }else{
-//                               print("failed to send")
+//
+        guard let conversationId = conversationId, let name = self.title else {
+                    return
+            }
+                // append to existing conversation data
+        print("مدري وش ذا" + name)
+            DatabaseManger.shared.sendMessage(to: conversationId, name: name, newMessage: message) { success in
+                if success {
+                    print("message sent")
+                }else {
+                    print("failed to send")
+                }
+            }
+        }
+    }
+       
+//         func listenForMessages(id: String, shouldScrollToBottom: Bool) {
+//               DatabaseManger.shared.getAllMessagesForConversation(with: id) { [weak self] result in
+//                   switch result {
+//                   case .success(let messages):
+//                       print("success in getting messages: \(messages)")
+//                       guard !messages.isEmpty else {
+//                           print("messages are empty")
+//                           return
+//                       }
+//                       self?.messages = messages
+//
+//                       DispatchQueue.main.async {
+//                           self?.messagesCollectionView.reloadDataAndKeepOffset()
+//
+//                           if shouldScrollToBottom {
+//                               self?.messagesCollectionView.scrollToLastItem()
 //                           }
 //                       }
 //
-//                   }else {
-//                       guard let conversationId = conversationId, let name = self.title else {
-//                           return
-//                       }
-        }
-        
-    }
-    
+//                   case .failure(let error):
+//                       print("failed to get messages: \(error)")
+//                   }
+//               }
+//           }
 }
 
 extension ChatViewController :  InputBarAccessoryViewDelegate {
@@ -102,27 +127,30 @@ extension ChatViewController :  InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
             print("sending \(text)")
         insertMessage(messegeText: text)
-            
-        }
+
+        // Save the message to the Firestore database.
+      //  save(message)
+
+        // 3
+        inputBar.inputTextView.text = ""
+    }
     
     private func createMessageId() -> String? {
             // date, otherUserEmail, senderEmail, randomInt possibly
             // capital Self because its staticcopy
         
-        guard let userId = Auth.auth().currentUser?.uid else {
-               // we cache the user email
-               return nil
-           }
+        guard let currentUserEmail = UserDefaults.standard.value(forKey: "email") as? String else {
+                    return nil
+                }
             
-            let dateString = Self.dateFormatter.string(from: Date())
+        let dateString = Self.dateFormatter.string(from: Date())
         
-        let newIdentifier = "\(otherUserEmail ?? "15")_\(userId)_\(dateString)"
-        
+        let newIdentifier = "\(otherUserEmail!)_\(currentUserEmail)_\(dateString)"
         
             print("created message id: \(newIdentifier)")
             return newIdentifier
-            
         }
+    
     public static var dateFormatter: DateFormatter = {
            let formatter = DateFormatter()
            formatter.dateStyle = .medium
@@ -144,6 +172,16 @@ extension ChatViewController : MessagesDataSource  {
     //Each message takes up a section in the collection view.
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
         messages.count
+    }
+    // 4
+    func messageTopLabelAttributedText( for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
+      let name = message.sender.displayName
+      return NSAttributedString(
+        string: name,
+        attributes: [
+          .font: UIFont.preferredFont(forTextStyle: .caption1),
+          .foregroundColor: UIColor(white: 0.3, alpha: 1)
+        ])
     }
 }
 

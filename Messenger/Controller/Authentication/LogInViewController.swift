@@ -28,7 +28,9 @@ class LogInViewController: UIViewController {
         }
     }
     @IBAction func logInButton(_ sender: UIButton) {
-        userLogInAuthntication()
+        if let email = emailTF.text ,let pass = passwordTF.text {
+        userLogInAuthntication(email: email, password: pass)
+        }
     }
     @IBAction func signUpButtonPressed(_ sender: UIButton) {
         let registrationCV = storyboard?.instantiateViewController(withIdentifier: "RegistrationViewController") as! RegistrationViewController
@@ -49,9 +51,9 @@ extension LogInViewController : RegisterDelegate{
     }
     
     
-    func userLogInAuthntication(){
+    func userLogInAuthntication(email: String , password: String){
         // Firebase Login
-        FirebaseAuth.Auth.auth().signIn(withEmail: emailTF!.text!, password: passwordTF!.text!, completion: { authResult, error in
+        FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password, completion: { authResult, error in
             
           /*  guard let strongSelf = self else {
                    return
@@ -62,6 +64,8 @@ extension LogInViewController : RegisterDelegate{
             }
             let user = result.user
             print("logged in user: \(user)")
+            
+            self.saveInUserDefult(c_userEmail:email ,c_userPass: password, c_userId: result.user.uid )
             self.goToConversationsVC()
             
             // if this succeeds, dismiss
@@ -70,6 +74,28 @@ extension LogInViewController : RegisterDelegate{
            
         })
     }
+    
+    func saveInUserDefult(c_userEmail: String, c_userPass : String , c_userId : String){
+        UserDefaults.standard.set(c_userEmail, forKey: UserKeyName.email)
+        UserDefaults.standard.set(c_userPass, forKey: UserKeyName.password)
+        UserDefaults.standard.set(c_userId, forKey: UserKeyName.userId)
+        
+        //get current user name:
+        DatabaseManger.shared.searchUser(email: c_userEmail, completion: { result in
+            switch result {
+                case .success(let c_user):
+                print("userr name : dbbbbbbbbbbbbbbbb \(c_user[UserKeyName.username]!)")
+                    UserDefaults.standard.set(c_user[UserKeyName.username], forKey: UserKeyName.username)
+                case .failure(let error):
+                    print("failed mmmmmmmmmmmmmmmmmm\(error)")
+            }
+               
+            })
+        }
+        
+       
+                                         
+    
     func goToConversationsVC(){
         
          let conversationVC = storyboard?.instantiateViewController(identifier: "ConversationViewController") as! ConversationsViewController

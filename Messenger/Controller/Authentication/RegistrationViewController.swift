@@ -21,10 +21,14 @@ class RegistrationViewController: UIViewController {
     var userID = Auth.auth().currentUser?.uid
 
     var currentUser : User?
-    var profileImage : String?
+    var profileImage : Data?
     var delegate : RegisterDelegate?
     
-    
+    func safeEmail(userEmail : String) -> String {
+        var safeEmail = userEmail.replacingOccurrences(of: ".", with: "-")
+        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
+        return safeEmail
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -34,26 +38,46 @@ class RegistrationViewController: UIViewController {
     }
     
     @IBAction func signInButtonPressed(_ sender: UIButton) {
-        let logInCV = storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as! LogInViewController
-       
         self.navigationController?.popViewController(animated: true)
     }
     @IBAction func userImageButton(_ sender: UIButton) {
         presentPhotoActionSheet()
     }
     @IBAction func createAccountButton(_ sender: UIButton) {
+        var imageURL : String?
+        
         if let firstName = firstNameTF.text,  let lastName = lastNameTF.text , let email = emailTF.text , let password = passwordTF.text {
-            currentUser =  User(userName: firstName + " " +  lastName
-            , userEmail: email
-            , userPassword: password,
-            profilePictureUrl: ""
-        )
             
-                createUserAccount()
+            if let profilePicture = profileImage {
+             // uploud image to firebase
+                StorageManager.shared.uploadProfilePicture(with: profilePicture, fileName: safeEmail(userEmail:email)) { result in
+                    switch result {
+                    case .success(let url):
+                        imageURL = url
+                    case .failure(let error):
+                        print(error)
+                    }
+                }
                 
-            
+                currentUser =  User(userName: firstName + " " +  lastName
+                           , userEmail: email
+                           , userPassword: password
+                           , profilePictureUrl: imageURL
+                       
+                )
+            }
+            else {
+                currentUser =  User(userName: firstName + " " +  lastName
+                           , userEmail: email
+                           , userPassword: password,
+                           profilePictureUrl: nil
+                       )
+            }
+                
            
+                createUserAccount()
         }
+        
     }
 }
 extension RegistrationViewController {
@@ -78,11 +102,9 @@ extension RegistrationViewController {
                 }
                 else{ print("error") }
             }
-           
-           
          })
         }
-        }
+    }
 }
 
 
@@ -128,6 +150,8 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
         DispatchQueue.main.async {
             
             self.userImageBt.setImage(selectedImage, for: .normal)
+            self.profileImage = selectedImage.jpegData(compressionQuality: 0.9)
+            
         }
 
     }
