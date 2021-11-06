@@ -97,14 +97,16 @@ extension RegistrationViewController {
             DatabaseManger.shared.insertUser(with: c_user , userID: user.uid) { isInserted in
                 if isInserted == true {
                     // go to conversation view controoler
-                    self.delegate?.registerSuccesful()
+                    self.delegate?.registerSuccesful(email: c_user.safeEmail, uid: user.uid)
                     self.navigationController?.popViewController(animated: true)
                 }
                 else{ print("error") }
             }
          })
+            
         }
-    }
+        }
+    
 }
 
 
@@ -164,5 +166,5 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
 
 
 protocol RegisterDelegate {
-    func registerSuccesful()
+    func registerSuccesful(email: String, uid: String)
 }

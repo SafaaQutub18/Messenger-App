@@ -22,7 +22,7 @@ class LogInViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        //if the user exesit:
+        //if the user exesit: 
         if Auth.auth().currentUser?.uid != nil {
             goToConversationsVC()
         }
@@ -43,10 +43,10 @@ class LogInViewController: UIViewController {
 
 extension LogInViewController : RegisterDelegate{
     
-    func registerSuccesful() {
+    func registerSuccesful(email: String, uid: String) {
         DispatchQueue.main.async {
-            self.goToConversationsVC()
-        }
+                   self.saveInUserDefult(c_userEmail:email, c_userId: uid )
+               }
        
     }
     
@@ -65,8 +65,8 @@ extension LogInViewController : RegisterDelegate{
             let user = result.user
             print("logged in user: \(user)")
             
-            self.saveInUserDefult(c_userEmail:email ,c_userPass: password, c_userId: result.user.uid )
-            self.goToConversationsVC()
+            self.saveInUserDefult(c_userEmail:email ,c_userId: result.user.uid )
+            
             
             // if this succeeds, dismiss
               //  strongSelf.navigationController?.dismiss(animated: true, completion: nil)
@@ -75,9 +75,8 @@ extension LogInViewController : RegisterDelegate{
         })
     }
     
-    func saveInUserDefult(c_userEmail: String, c_userPass : String , c_userId : String){
+    func saveInUserDefult(c_userEmail: String, c_userId : String){
         UserDefaults.standard.set(c_userEmail, forKey: UserKeyName.email)
-        UserDefaults.standard.set(c_userPass, forKey: UserKeyName.password)
         UserDefaults.standard.set(c_userId, forKey: UserKeyName.userId)
         
         //get current user name:
@@ -91,6 +90,7 @@ extension LogInViewController : RegisterDelegate{
             }
                
             })
+        self.goToConversationsVC()
         }
         
        

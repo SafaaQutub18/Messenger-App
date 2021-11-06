@@ -28,8 +28,8 @@ struct Conversation {
     let other_user_name : String
     //let latest_message: String?
     //let date : Date?
-    let messages : Message?
-    let senderID : String
+  //  let messages : Message?
+    //let senderID : String
 }
 
 struct UserKeyName{

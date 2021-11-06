@@ -71,10 +71,9 @@ class ChatViewController: MessagesViewController  {
     
     func insertMessage(messegeText : String ){
         let message_Id = createMessageId()
-        let sentDate = Self.dateFormatter.string(from: Date())
         
         if let self_Sender = selfSender , let messageId = message_Id  {
-            let message =  Message(sender: self_Sender, messageId: messageId, sentDate:sentDate  , kind: .text(messegeText), text: messegeText)
+            let message =  Message(sender: self_Sender, messageId: messageId, sentDate: Date(), kind: .text(messegeText), text: messegeText)
         messages.append(message)
         print(message)
         messagesCollectionView.reloadData()
@@ -86,7 +85,7 @@ class ChatViewController: MessagesViewController  {
             }
                 // append to existing conversation data
         print("مدري وش ذا" + name)
-            DatabaseManger.shared.sendMessage(to: conversationId, name: name, newMessage: message) { success in
+            DatabaseManger.shared.sendMessage(to: conversationId, name: name, text: messegeText, newMessage: message) { success in
                 if success {
                     print("message sent")
                 }else {

@@ -7,26 +7,28 @@
 
 import UIKit
 import FirebaseAuth
+
 class ConversationsViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     private var conversations = [Conversation]()
+    let currentUserEmail = UserDefaults.standard.value(forKey: UserKeyName.email) as! String
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // set the background
-          self.view.backgroundColor = UIColor(patternImage: UIImage(named: "space back 30p.png")!)
         self.title = "Chat"
-        
         tableView.dataSource = self
         tableView.delegate = self
- 
+        
+        fetchConversations()
         }
     
           override func viewDidAppear(_ animated: Bool) {
               super.viewDidAppear(animated)
               validateAuth()
+              
           }
     
     @IBAction func addConversationButton(_ sender: UIButton) {
@@ -85,16 +87,16 @@ class ConversationsViewController: UIViewController {
 
 extension ConversationsViewController {
     
-    func addNewConversation(reciverInfo : [String: String]){
+    func addNewConversation(reciverInfo : [String: Any]){
         // create conv. id  :
         
-        if let reciverEmail = reciverInfo[UserKeyName.email], let reciverName = reciverInfo[UserKeyName.username]{
-        let currentUserEmail = UserDefaults.standard.value(forKey: UserKeyName.email) as! String
-        let conversationID = currentUserEmail + "_" + reciverEmail
+        if let reciverEmail = reciverInfo[UserKeyName.email] as? String, let reciverName = reciverInfo[UserKeyName.username] as? String{
+      //  let currentUserEmail = UserDefaults.standard.value(forKey: UserKeyName.email) as! String
+            let conversationID = DatabaseManger.shared.safeEmail(userEmail: currentUserEmail) + "_" + DatabaseManger.shared.safeEmail(userEmail: reciverEmail)
             
-        let senderId = UserDefaults.standard.value(forKey: UserKeyName.userId) as! String
+       // let senderId = UserDefaults.standard.value(forKey: UserKeyName.userId) as! String
             DispatchQueue.main.async {
-                let newConversation = Conversation(conversationId: conversationID, other_user_email: reciverEmail, other_user_name: reciverName, messages: nil , senderID: senderId)
+                let newConversation = Conversation(conversationId: conversationID, other_user_email: reciverEmail, other_user_name: reciverName/*, senderID: senderId*/)
                 self.conversations.append(newConversation)
                 self.tableView.reloadData()
                 
@@ -110,9 +112,19 @@ extension ConversationsViewController {
     }
     
     private func fetchConversations(){
-            // fetch from firebase and either show table or label
-            
-            tableView.isHidden = false
+        print("inside fetch")
+        let currentEmail = DatabaseManger.shared.safeEmail(userEmail: currentUserEmail)
+        DatabaseManger.shared.getAllConversations(for: currentEmail) { result in
+            switch result {
+                case .success(let convArray):
+                self.conversations = convArray
+                print(self.conversations[0].other_user_name)
+                    print("successfully get conversation models")
+                case .failure(let error):
+                    print("failed to get convos T__T \(error)")
+            }
+            self.tableView.reloadData()
+        }
         }
 }
 extension ConversationsViewController : UITableViewDelegate, UITableViewDataSource {
