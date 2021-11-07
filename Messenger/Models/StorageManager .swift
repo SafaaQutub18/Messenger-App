@@ -7,6 +7,8 @@
 
 import Foundation
 import FirebaseStorage
+import FirebaseAuth
+import UIKit
 final class StorageManager {
     
     static let shared = StorageManager() // static property so we can get an instance of this storage manager
@@ -26,7 +28,7 @@ final class StorageManager {
         // return a string of the download URL
         // if we succeed, return a string, otherwise return error
         
-        storage.child("images/\(fileName)").putData(data, metadata: nil) { metadata, error in
+        storage.child("images/profileImage_\(fileName).png").putData(data, metadata: nil) { metadata, error in
             guard error == nil else {
                 // failed
                 print("failed to upload data to firebase for picture")
@@ -34,7 +36,7 @@ final class StorageManager {
                 return
             }
             
-            self.storage.child("images/\(fileName)").downloadURL { url, error in
+            self.storage.child("images/profileImage_\(fileName).png").downloadURL { url, error in
                 guard let url = url else {
                     print("Failed to get download url")
                     completion(.failure(StorageErrors.failedToGetDownloadUrl))
@@ -51,19 +53,15 @@ final class StorageManager {
         
     }
     
-    public func downloadURL(for path: String,completion: @escaping (Result<URL, Error>) -> Void) {
-        let reference = storage.child(path)
+    public func downloadURL(for path: String ) -> UIImage? {
+        let url = URL(string:path)
         
-        // whole closure is escaping
-        // when you call the completion down below, it can escape the asynchronous execution block that firebase provides
-        
-        reference.downloadURL { url, error in
-            guard let url = url, error == nil else {
-                completion(.failure(StorageErrors.failedToGetDownloadUrl))
-                return
-            }
-            completion(.success(url))
-        }
+          if let data = try? Data(contentsOf: url!)
+          {
+              let image: UIImage = UIImage(data: data)!
+              return image
+          }
+        return nil
     }
     
     public enum StorageErrors: Error {

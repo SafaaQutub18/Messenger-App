@@ -7,7 +7,7 @@
 
 import UIKit
 
-class chatCustomCell: UITableViewCell {
+class CustomCellConversation: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()

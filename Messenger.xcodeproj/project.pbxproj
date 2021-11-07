@@ -26,6 +26,7 @@
 		C31BF7CF272A019800E78463 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = C31BF7CE272A019800E78463 /* FirebaseDatabase */; };
 		C31BF7D1272A019800E78463 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C31BF7D0272A019800E78463 /* FirebaseFirestore */; };
 		C31BF7D3272A019800E78463 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C31BF7D2272A019800E78463 /* FirebaseStorage */; };
+		C32290562737CDC1005C0242 /* DefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32290552737CDC1005C0242 /* DefaultManager.swift */; };
 		C3639F44272E7AEC0018710F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3639F43272E7AEC0018710F /* GoogleService-Info.plist */; };
 		C3639F48272F1DDC0018710F /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3639F47272F1DDC0018710F /* DatabaseManager.swift */; };
 		C3639F4B273041A40018710F /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = C3639F4A273041A40018710F /* MessageKit */; };
@@ -37,7 +38,7 @@
 		C3A83DF3273124920095C10F /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = C3A83DF2273124920095C10F /* FacebookCore */; };
 		C3A83DF5273124920095C10F /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = C3A83DF4273124920095C10F /* FacebookLogin */; };
 		C3A83DF7273124920095C10F /* FacebookShare in Frameworks */ = {isa = PBXBuildFile; productRef = C3A83DF6273124920095C10F /* FacebookShare */; };
-		C3A83DF9273280460095C10F /* chatCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A83DF8273280460095C10F /* chatCustomCell.swift */; };
+		C3A83DF9273280460095C10F /* CustomCellConversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A83DF8273280460095C10F /* CustomCellConversation.swift */; };
 		C3A83DFB2732D4760095C10F /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A83DFA2732D4760095C10F /* Constant.swift */; };
 		C3A83DFD273357EB0095C10F /* StorageManager .swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A83DFC273357EB0095C10F /* StorageManager .swift */; };
 /* End PBXBuildFile section */
@@ -79,9 +80,10 @@
 		C31BF7C5272969E700E78463 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		C31BF7C727296AE800E78463 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C31BF7C92729DBE500E78463 /* xcode fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "xcode fonts"; sourceTree = "<group>"; };
+		C32290552737CDC1005C0242 /* DefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultManager.swift; sourceTree = "<group>"; };
 		C3639F43272E7AEC0018710F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C3639F47272F1DDC0018710F /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
-		C3A83DF8273280460095C10F /* chatCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chatCustomCell.swift; sourceTree = "<group>"; };
+		C3A83DF8273280460095C10F /* CustomCellConversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCellConversation.swift; sourceTree = "<group>"; };
 		C3A83DFA2732D4760095C10F /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		C3A83DFC273357EB0095C10F /* StorageManager .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StorageManager .swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -207,6 +209,7 @@
 		C31BF7BA2729686200E78463 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C32290552737CDC1005C0242 /* DefaultManager.swift */,
 				C3639F47272F1DDC0018710F /* DatabaseManager.swift */,
 				C3A83DFA2732D4760095C10F /* Constant.swift */,
 				C3A83DFC273357EB0095C10F /* StorageManager .swift */,
@@ -237,7 +240,7 @@
 			children = (
 				C31BF7C02729698900E78463 /* ConversationsViewController.swift */,
 				C31BF7C2272969AA00E78463 /* ChatViewController.swift */,
-				C3A83DF8273280460095C10F /* chatCustomCell.swift */,
+				C3A83DF8273280460095C10F /* CustomCellConversation.swift */,
 			);
 			path = Conversation;
 			sourceTree = "<group>";
@@ -406,8 +409,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C3A83DF9273280460095C10F /* chatCustomCell.swift in Sources */,
+				C3A83DF9273280460095C10F /* CustomCellConversation.swift in Sources */,
 				C31BF7C3272969AA00E78463 /* ChatViewController.swift in Sources */,
+				C32290562737CDC1005C0242 /* DefaultManager.swift in Sources */,
 				C31BF78C272945F400E78463 /* LogInViewController.swift in Sources */,
 				C3639F48272F1DDC0018710F /* DatabaseManager.swift in Sources */,
 				C31BF788272945F400E78463 /* AppDelegate.swift in Sources */,

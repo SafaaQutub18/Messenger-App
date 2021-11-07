@@ -10,33 +10,38 @@ import FirebaseAuth
 
 class ConversationsViewController: UIViewController {
 
+    @IBOutlet weak var imageProfileButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
+    
+    
     private var conversations = [Conversation]()
-    let currentUserEmail = UserDefaults.standard.value(forKey: UserKeyName.email) as? String
     
-    
+    var currentUserEmail = DefaultManager.getValues(valueType: .email)
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        imageProfileButton.layer.cornerRadius = 20
+                imageProfileButton.layer.masksToBounds = true
         // set the background
         self.title = "Chat"
         tableView.dataSource = self
         tableView.delegate = self
         
+        self.navigationController?.navigationBar.isHidden = true
         //fetchConversations()
         }
     
           override func viewDidAppear(_ animated: Bool) {
               super.viewDidAppear(animated)
               validateAuth()
+              self.navigationController?.navigationBar.isHidden = true
+              fetchProfileImage()
               fetchConversations()
-              
           }
     
     @IBAction func addConversationButton(_ sender: UIButton) {
-        let alert = UIAlertController(title: "New Friend *_*",
-                                      message: "Add a new Friend",
-                                      preferredStyle: .alert)
+        let alert = UIAlertController(title: "New Friend *_*", message: "Add a new Friend",preferredStyle: .alert)
         
         alert.addTextField(configurationHandler: nil)
         
@@ -75,6 +80,7 @@ class ConversationsViewController: UIViewController {
     
     @IBAction func logOutButton(_ sender: UIButton) {
         do {
+            UserDefaults.standard.removeObject(forKey: UserKeyName.userObj)
             try FirebaseAuth.Auth.auth().signOut()
             DispatchQueue.main.async {
                 self.navigationController?.popViewController(animated: true)
@@ -92,11 +98,12 @@ extension ConversationsViewController {
     func addNewConversation(reciverInfo : [String: Any]){
         // create conv. id  :
         
-        if let reciverEmail = reciverInfo[UserKeyName.email] as? String, let reciverName = reciverInfo[UserKeyName.username] as? String{
-      //  let currentUserEmail = UserDefaults.standard.value(forKey: UserKeyName.email) as! String
-            let conversationID = DatabaseManger.shared.safeEmail(userEmail: currentUserEmail!) + "_" + DatabaseManger.shared.safeEmail(userEmail: reciverEmail)
+        if let reciverEmail = reciverInfo[UserKeyName.email] as? String, let reciverName = reciverInfo[UserKeyName.username] as? String , let currentEmail = currentUserEmail {
+      
             
-       // let senderId = UserDefaults.standard.value(forKey: UserKeyName.userId) as! String
+            let conversationID = DatabaseManger.shared.safeEmail(userEmail: currentEmail) + "_" + DatabaseManger.shared.safeEmail(userEmail: reciverEmail)
+            
+       
             DispatchQueue.main.async {
                 let newConversation = Conversation(conversationId: conversationID, other_user_email: reciverEmail, other_user_name: reciverName/*, senderID: senderId*/)
                 self.conversations.append(newConversation)
@@ -115,7 +122,10 @@ extension ConversationsViewController {
     
     private func fetchConversations(){
         print("inside fetch")
-        let currentEmail = DatabaseManger.shared.safeEmail(userEmail: currentUserEmail!)
+        guard let userEmail = currentUserEmail else{return}
+        
+        let currentEmail = DatabaseManger.shared.safeEmail(userEmail: userEmail)
+        
         DatabaseManger.shared.getAllConversations(for: currentEmail) { result in
             switch result {
                 case .success(let convArray):
@@ -123,11 +133,33 @@ extension ConversationsViewController {
                 print(self.conversations[0].other_user_name)
                     print("successfully get conversation models")
                 case .failure(let error):
-                    print("failed to get convos T__T \(error)")
+                    print("empty or failed to get convos T__T \(error)")
             }
             self.tableView.reloadData()
         }
         }
+    
+    private func fetchProfileImage(){
+        
+        guard let userEmail = currentUserEmail else{return}
+        let currentEmail = DatabaseManger.shared.safeEmail(userEmail: userEmail)
+        //get current user name:
+        DatabaseManger.shared.searchUser(email: currentEmail, completion: { result in
+            switch result {
+            case .success(let c_user):
+               
+                if let path = c_user[UserKeyName.profileImageURL] as? String {
+                    DefaultManager.saveValues(value: path, valueType: .profileImageURL)
+                if let profileImage = StorageManager.shared.downloadURL(for: path) {
+                    self.imageProfileButton.setImage(profileImage, for: .normal)
+                }
+                }
+            case .failure(let error):
+                print("failed get image\(error)")
+                return
+                }
+        })
+    }
 }
 extension ConversationsViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -149,6 +181,7 @@ extension ConversationsViewController : UITableViewDelegate, UITableViewDataSour
             chatVC.title = conversations[indexPath.row].other_user_name
             
             // send data :
+        
             chatVC.otherUserEmail = conversations[indexPath.row].other_user_email
             chatVC.conversationId = conversations[indexPath.row].conversationId
             self.navigationController?.pushViewController(chatVC , animated: true)

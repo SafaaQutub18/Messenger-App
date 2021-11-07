@@ -65,15 +65,18 @@ class ChatViewController: MessagesViewController  {
     public var conversationId: String?
     public var isNewConversation = true
     public var messages = [Message]()
-    let currentName = UserDefaults.standard.value(forKey: UserKeyName.username) as? String
+    
+    let currentName = DefaultManager.getValues(valueType: .userName)
     private var selfSender: Sender? {
-        guard let email = UserDefaults.standard.value(forKey: UserKeyName.email) as? String else {
+        guard let email = DefaultManager.getValues(valueType: .email) else {
                 // we cache the user email
                 return nil
         }
-        
-        let safeEmail = DatabaseManger.shared.safeEmail(userEmail: email)
-        return Sender(photoURL: "", senderId: safeEmail, displayName: "Me")
+        let safeEmail = safeEmail(userEmail: email)
+        guard let userName = currentName else{
+            return Sender(photoURL: "", senderId: safeEmail, displayName: "")
+        }
+        return Sender(photoURL: "", senderId: safeEmail, displayName: userName)
     }
     
     // creating a new conversation, there is no identifier
@@ -83,6 +86,8 @@ class ChatViewController: MessagesViewController  {
             messagesCollectionView.messagesLayoutDelegate = self
             messagesCollectionView.messagesDisplayDelegate = self
             messageInputBar.delegate = self
+        
+        self.navigationController?.navigationBar.isHidden = false
     }
     
      override func viewDidAppear(_ animated: Bool) {
@@ -100,7 +105,6 @@ class ChatViewController: MessagesViewController  {
         if let self_Sender = selfSender , let messageId = message_Id  {
             let message =  Message(sender: self_Sender, messageId: messageId, sentDate: Date(), kind: .text(messegeText))
         messages.append(message)
-        print(message)
         messagesCollectionView.reloadData()
         messagesCollectionView.scrollToLastItem()
 
@@ -169,7 +173,7 @@ extension ChatViewController :  InputBarAccessoryViewDelegate {
             // date, otherUserEmail, senderEmail, randomInt possibly
             // capital Self because its staticcopy
         
-        guard let currentUserEmail = UserDefaults.standard.value(forKey: "email") as? String else {
+        guard let currentUserEmail = DefaultManager.getValues(valueType: .email) else {
                     return nil
                 }
             
@@ -197,8 +201,8 @@ extension ChatViewController : MessagesDataSource  {
             if let sender = selfSender {
                 return sender
             }
-            fatalError("Self sender is nil, email should be cached")
-        return  Sender(photoURL: "", senderId: "12", displayName: "")
+        fatalError("Self sender is nil, email should be cached")
+                return  Sender(photoURL: "", senderId: "12", displayName: "")
     }
     //return the message for the given index path.
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {

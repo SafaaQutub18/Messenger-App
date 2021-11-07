@@ -53,29 +53,32 @@ class RegistrationViewController: UIViewController {
                 StorageManager.shared.uploadProfilePicture(with: profilePicture, fileName: safeEmail(userEmail:email)) { result in
                     switch result {
                     case .success(let url):
+                        print("الصورةةةةة" + url)
                         imageURL = url
+                        
+                        self.currentUser =  User(userName: firstName + " " +  lastName
+                                   , userEmail: email
+                                   , userPassword: password
+                                   , profilePictureUrl: imageURL
+                        )
+                        self.createUserAccount()
                     case .failure(let error):
                         print(error)
+//                        currentUser =  User(userName: firstName + " " +  lastName
+//                                   , userEmail: email
+//                                   , userPassword: password,
+//                                   profilePictureUrl: nil )
+//                        createUserAccount()
                     }
                 }
-                
-                currentUser =  User(userName: firstName + " " +  lastName
-                           , userEmail: email
-                           , userPassword: password
-                           , profilePictureUrl: imageURL
-                       
-                )
             }
             else {
                 currentUser =  User(userName: firstName + " " +  lastName
                            , userEmail: email
                            , userPassword: password,
-                           profilePictureUrl: nil
-                       )
+                           profilePictureUrl: nil )
+            createUserAccount()
             }
-                
-           
-                createUserAccount()
         }
         
     }
@@ -93,11 +96,17 @@ extension RegistrationViewController {
             let user = result.user
             print("Created User: \(user)")
             
+            DefaultManager.saveValues(value: user.uid, valueType: .userId)
+            DefaultManager.saveValues(value: c_user.userEmail, valueType: .email)
+            DefaultManager.saveValues(value: c_user.userName, valueType: .userName)
+            
+            
             // database:
             DatabaseManger.shared.insertUser(with: c_user , userID: user.uid) { isInserted in
                 if isInserted == true {
+                    
                     // go to conversation view controoler
-                    self.delegate?.registerSuccesful(email: c_user.safeEmail, uid: user.uid)
+                    self.delegate?.registerSuccesful()
                     self.navigationController?.popViewController(animated: true)
                 }
                 else{ print("error") }
@@ -153,9 +162,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
             
             self.userImageBt.setImage(selectedImage, for: .normal)
             self.profileImage = selectedImage.jpegData(compressionQuality: 0.9)
-            
         }
-
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
@@ -166,5 +173,5 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
 
 
 protocol RegisterDelegate {
-    func registerSuccesful(email: String, uid: String)
+    func registerSuccesful()
 }

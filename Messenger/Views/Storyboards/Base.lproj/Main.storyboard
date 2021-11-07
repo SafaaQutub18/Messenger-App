@@ -372,21 +372,24 @@
         <!--Conversations View Controller-->
         <scene sceneID="wdI-v6-shd">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kht-Sd-lpg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="ConversationViewController" id="Fpu-Wy-3Ay" customClass="ConversationsViewController" customModule="Messenger" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NFU-4d-pQl">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="space back 30p" translatesAutoresizingMaskIntoConstraints="NO" id="aJR-IV-qOa">
+                                <rect key="frame" x="0.0" y="-17" width="414" height="923"/>
+                            </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="meo-vJ-lTp">
                                 <rect key="frame" x="0.0" y="144" width="414" height="718"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatCell" rowHeight="88" id="lla-6b-f30">
-                                        <rect key="frame" x="0.0" y="44.5" width="414" height="88"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatCell" rowHeight="127" id="lla-6b-f30">
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="127"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lla-6b-f30" id="H8d-4f-Lxv">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="88"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lla-6b-f30" id="H8d-4f-Lxv" customClass="CustomCellConversation" customModule="Messenger" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="127"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </tableViewCellContentView>
@@ -423,11 +426,6 @@
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Button" image="userWite-1"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <integer key="value" value="50"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="logOutButton:" destination="Fpu-Wy-3Ay" eventType="touchUpInside" id="hv7-uJ-VoN"/>
                                 </connections>
@@ -441,6 +439,7 @@
                             <constraint firstItem="jah-Ig-zHD" firstAttribute="top" secondItem="wjz-Ms-QoQ" secondAttribute="top" constant="-7" id="GKB-2u-Lta"/>
                             <constraint firstItem="eLK-Qw-aMx" firstAttribute="centerX" secondItem="jah-Ig-zHD" secondAttribute="centerX" id="MRQ-Cb-DUO"/>
                             <constraint firstItem="wjz-Ms-QoQ" firstAttribute="leading" secondItem="jah-Ig-zHD" secondAttribute="leading" constant="20" id="Rio-Qi-aEw"/>
+                            <constraint firstItem="aJR-IV-qOa" firstAttribute="trailing" secondItem="jah-Ig-zHD" secondAttribute="trailing" id="YUW-7B-d1a"/>
                             <constraint firstItem="eLK-Qw-aMx" firstAttribute="centerX" secondItem="NFU-4d-pQl" secondAttribute="centerX" id="YjU-DU-khj"/>
                             <constraint firstItem="YXT-x3-mMk" firstAttribute="top" secondItem="NFU-4d-pQl" secondAttribute="top" constant="-35" id="bk9-IH-arg"/>
                             <constraint firstItem="YXT-x3-mMk" firstAttribute="leading" secondItem="jah-Ig-zHD" secondAttribute="leading" id="dF2-DF-Y4b"/>
@@ -450,19 +449,23 @@
                             <constraint firstAttribute="trailing" secondItem="YXT-x3-mMk" secondAttribute="trailing" id="jcB-5W-rFw"/>
                             <constraint firstItem="Q3y-HG-LuI" firstAttribute="bottom" secondItem="wjz-Ms-QoQ" secondAttribute="bottom" id="lja-LY-31L"/>
                             <constraint firstItem="jah-Ig-zHD" firstAttribute="trailing" secondItem="Q3y-HG-LuI" secondAttribute="trailing" constant="20" id="mt5-4C-YzL"/>
+                            <constraint firstAttribute="bottom" secondItem="aJR-IV-qOa" secondAttribute="bottom" constant="-10" id="mtr-jH-Lxt"/>
+                            <constraint firstItem="aJR-IV-qOa" firstAttribute="leading" secondItem="jah-Ig-zHD" secondAttribute="leading" id="ogZ-36-OsD"/>
+                            <constraint firstItem="aJR-IV-qOa" firstAttribute="top" secondItem="NFU-4d-pQl" secondAttribute="top" constant="-17" id="pVh-xW-8al"/>
                             <constraint firstItem="jah-Ig-zHD" firstAttribute="trailing" secondItem="meo-vJ-lTp" secondAttribute="trailing" id="snF-2U-upo"/>
                             <constraint firstItem="meo-vJ-lTp" firstAttribute="top" secondItem="jah-Ig-zHD" secondAttribute="top" constant="100" id="vNa-to-j0G"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
                     <nil key="simulatedTopBarMetrics"/>
-                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="imageProfileButton" destination="wjz-Ms-QoQ" id="oSu-nv-tIY"/>
                         <outlet property="tableView" destination="meo-vJ-lTp" id="ha6-94-6OJ"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kht-Sd-lpg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2400" y="118"/>
+            <point key="canvasLocation" x="2398.5507246376815" y="117.85714285714285"/>
         </scene>
         <!--chat-->
         <scene sceneID="DMV-Y5-nM3">
@@ -519,6 +522,7 @@
         <image name="facebook" width="32" height="32"/>
         <image name="google" width="32" height="32"/>
         <image name="space back" width="564" height="1002"/>
+        <image name="space back 30p" width="564" height="1002"/>
         <image name="space back2" width="564" height="1002"/>
         <image name="space background" width="236" height="419"/>
         <image name="user" width="128" height="128"/>

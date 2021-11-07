@@ -43,10 +43,10 @@ class LogInViewController: UIViewController {
 
 extension LogInViewController : RegisterDelegate{
     
-    func registerSuccesful(email: String, uid: String) {
+    func registerSuccesful() {
         DispatchQueue.main.async {
-                   self.saveInUserDefult(c_userEmail:email, c_userId: uid )
-               }
+            self.goToConversationsVC()
+        }
        
     }
     
@@ -76,33 +76,29 @@ extension LogInViewController : RegisterDelegate{
     }
     
     func saveInUserDefult(c_userEmail: String, c_userId : String){
-        UserDefaults.standard.set(c_userEmail, forKey: UserKeyName.email)
-        UserDefaults.standard.set(c_userId, forKey: UserKeyName.userId)
+        
+        DefaultManager.saveValues(value: c_userEmail, valueType: .email)
+        DefaultManager.saveValues(value: c_userId, valueType: .userId)
         
         //get current user name:
         DatabaseManger.shared.searchUser(email: c_userEmail, completion: { result in
             switch result {
                 case .success(let c_user):
-                print("userr name : dbbbbbbbbbbbbbbbb \(c_user[UserKeyName.username]!)")
-                    UserDefaults.standard.set(c_user[UserKeyName.username], forKey: UserKeyName.username)
+                if let userName = c_user[UserKeyName.username] as? String {
+                    DefaultManager.saveValues(value: userName, valueType: .userName)
+                }
+                    
                 case .failure(let error):
-                    print("failed mmmmmmmmmmmmmmmmmm\(error)")
+                    print("failed fetch name\(error)")
             }
                
             })
         self.goToConversationsVC()
         }
         
-       
-                                         
-    
     func goToConversationsVC(){
         
          let conversationVC = storyboard?.instantiateViewController(identifier: "ConversationViewController") as! ConversationsViewController
             self.navigationController?.pushViewController(conversationVC , animated: true)
-        //conversationVC!.modalPresentationStyle = .fullScreen
-        //present(conversationVC!, animated: false)
-           
-        
     }
 }

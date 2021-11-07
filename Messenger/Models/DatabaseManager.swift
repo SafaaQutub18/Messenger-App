@@ -13,7 +13,7 @@ import MessageKit
 // singleton creation below
 // final - cannot be subclassed
 final class DatabaseManger {
-    public var userDefault = UserDefaults.standard
+    
     
     static let shared = DatabaseManger()
     
@@ -38,7 +38,14 @@ extension DatabaseManger {
     
     public func insertUser(with user: User,userID: String, completion: @escaping (Bool) -> Void){
         let email = user.safeEmail.lowercased()
-        let userDict : [String : String] = [UserKeyName.email:email,UserKeyName.username:user.userName]
+        
+        var userDict : [String : String]
+        if user.profilePictureUrl == nil {
+         userDict = [UserKeyName.email:email,UserKeyName.username:user.userName]
+        }
+        else{
+            userDict = [UserKeyName.email:email,UserKeyName.username:user.userName , UserKeyName.profileImageURL : user.profilePictureUrl!]
+        }
         //let userObj = [userID:userDict]
            // adding completion block here so once it's done writing to database, we want to upload the image
            
@@ -57,40 +64,11 @@ extension DatabaseManger {
                 completion(false)
                 
             }
-            
-          /*  self.database.child(UserKeyName.users).observeSingleEvent(of: .value) { snapshot in
-                           // snapshot is not the value itself
-                           if var usersCollection = snapshot.value as? [[String: String]] {
-                               // if var so we can make it mutable so we can append more contents into the array, and update it
-                               // append to user dictionary
-                               
-                               usersCollection.append(userDict)
-                               
-                               self.database.child(UserKeyName.users).setValue(usersCollection) { error, _ in
-                                   guard error == nil else {
-                                       completion(false)
-                                       return
-                                   }
-                                   completion(true)
-                               }
-                               
-                           }else{
-                               // create that array
-                               let newCollection: [[String: String]] = [userDict]
-                               
-                               self.database.child(UserKeyName.users).setValue(newCollection) { error, _ in
-                                   guard error == nil else {
-                                       completion(false)
-                                       return
-                                   }
-                                   completion(true)
-                               }
-                   }
-               }*/
+       
            }
        }
     
-/*
+/* I don't need these func. now
     public func getAllUsers(completion: @escaping (Result<[[String: String]], Error>) -> Void){
            database.child(UserKeyName.users).observeSingleEvent(of: .value) { snapshot in
                guard let value = snapshot.value as? [[String: String]] else {
@@ -134,9 +112,11 @@ extension DatabaseManger {
     public func insertNewConv(with conv: Conversation, completion: @escaping (Bool) -> Void){
         //get currnt user name:
         
-        let currentName = UserDefaults.standard.value(forKey: UserKeyName.username)
-        let currentEmail = safeEmail(userEmail: UserDefaults.standard.value(forKey: UserKeyName.email) as! String)
-        let otherUserEmail = safeEmail(userEmail: conv.other_user_email)
+        if let currentName = DefaultManager.getValues(valueType: .userName),
+           let cEmail =  DefaultManager.getValues(valueType: .email) {
+       
+               let currentEmail = safeEmail(userEmail:cEmail)
+               let otherUserEmail = safeEmail(userEmail: conv.other_user_email)
         
         // fetch current user
         self.database.child(UserKeyName.users).child("\(currentEmail)").observeSingleEvent(of: .value) { [weak self] snapshot in
@@ -157,7 +137,7 @@ extension DatabaseManger {
         let recipient_newConversationDict: [String:Any] = [
             ConversationKey.conversationId : conv.conversationId ,
             ConversationKey.other_user_email: currentEmail, // us, the sender email
-            ConversationKey.other_user_name: currentName!,  // self for now, will cache later
+            ConversationKey.other_user_name: currentName,  // self for now, will cache later
             ]
         
         // update recipient conversation entry
@@ -208,13 +188,10 @@ extension DatabaseManger {
                                    completion(false)
                                    return
                                }
-                             //  self?.finishCreatingConversation(name: name, conversationID: conversationId, firstMessage: firstMessage, completion: completion)
                            }
-                           
                        }
-                       
                    }
-                   
+           }
     }
     public func getAllConversations(for email: String, completion: @escaping (Result<[Conversation], Error>) -> Void) {
         print("inside getAllConv: " +  email)
@@ -256,8 +233,10 @@ extension DatabaseManger{
     
     public func sendMessage(to conversationId: String, name: String, newMessage: Message,isFirstMessage : Bool, completion: @escaping (Bool) -> Void) {
         
-        let currentName = UserDefaults.standard.value(forKey: UserKeyName.username) as! String
-        let currentEmail = safeEmail(userEmail: UserDefaults.standard.value(forKey: UserKeyName.email) as! String)
+        if let cEmail =  DefaultManager.getValues(valueType: .email) {
+       
+               let currentEmail = safeEmail(userEmail:cEmail)
+        
         var messageText = ""
         
         let messageDate = newMessage.sentDate
@@ -296,7 +275,6 @@ extension DatabaseManger{
                        // "is_read": false,
             MessageKey.senderName : name]
         
-        
         //check :
         if isFirstMessage == true {
         
@@ -311,7 +289,7 @@ extension DatabaseManger{
                 self.database.child("\(MessageKey.messages)/\(conversationId)").observeSingleEvent(of: .value, with:  { Snapshot in
                     completion(true)
                 }) {error in
-                    print("something wrong in insertUser func.")
+                    print("something wrong in insert message.")
                     completion(false)
                 }
         }
@@ -335,7 +313,7 @@ extension DatabaseManger{
                                completion(true)
                                
                            }
-                       }
+            }             }
         }
 }
     /// gets all messages from a given conversation
