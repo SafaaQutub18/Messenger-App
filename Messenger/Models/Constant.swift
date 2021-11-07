@@ -55,9 +55,9 @@ struct MessageKey {
     static let sender = "sender"
     static let messageId = "messageId"
     static let sentDate = "sentDate"
-    static let kind = "kind"
+    static let type = "kind"
     static let messageText = "messageText"
     static let senderEmail = "senderEmail"
-    static let reciverrName = "reciverrName"
+    static let senderName = "senderName"
     
 }

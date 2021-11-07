@@ -65,7 +65,7 @@ class ChatViewController: MessagesViewController  {
     public var conversationId: String?
     public var isNewConversation = true
     public var messages = [Message]()
-    
+    let currentName = UserDefaults.standard.value(forKey: UserKeyName.username) as? String
     private var selfSender: Sender? {
         guard let email = UserDefaults.standard.value(forKey: UserKeyName.email) as? String else {
                 // we cache the user email
@@ -89,9 +89,9 @@ class ChatViewController: MessagesViewController  {
          super.viewDidAppear(animated)
          messageInputBar.inputTextView.becomeFirstResponder()
          
-//         if let conversationId = conversationId {
-//             listenForMessages(id:conversationId, shouldScrollToBottom: true)
-//         }
+         if let conversationId = conversationId {
+             listenForMessages(conversationID:conversationId, shouldScrollToBottom: true)
+         }
      }
     
     func insertMessage(messegeText : String ){
@@ -105,12 +105,18 @@ class ChatViewController: MessagesViewController  {
         messagesCollectionView.scrollToLastItem()
 
 //
-        guard let conversationId = conversationId, let name = self.title else {
+            guard let conversationId = conversationId, let name = selfSender?.displayName /*self.title*/ else {
                     return
             }
                 // append to existing conversation data
         print("reciver name: " + name)
-            DatabaseManger.shared.sendMessage(to: conversationId, name: name, newMessage: message) { success in
+            var isFirstMsg : Bool
+            if(messages.count == 1){
+                isFirstMsg = true
+            }
+            else{isFirstMsg = false}
+                
+            DatabaseManger.shared.sendMessage(to: conversationId, name: name, newMessage: message, isFirstMessage: isFirstMsg) { success in
                 if success {
                     print("message sent")
                 }else {
@@ -120,30 +126,30 @@ class ChatViewController: MessagesViewController  {
         }
     }
        
-//         func listenForMessages(id: String, shouldScrollToBottom: Bool) {
-//               DatabaseManger.shared.getAllMessagesForConversation(with: id) { [weak self] result in
-//                   switch result {
-//                   case .success(let messages):
-//                       print("success in getting messages: \(messages)")
-//                       guard !messages.isEmpty else {
-//                           print("messages are empty")
-//                           return
-//                       }
-//                       self?.messages = messages
-//
-//                       DispatchQueue.main.async {
-//                           self?.messagesCollectionView.reloadDataAndKeepOffset()
-//
-//                           if shouldScrollToBottom {
-//                               self?.messagesCollectionView.scrollToLastItem()
-//                           }
-//                       }
-//
-//                   case .failure(let error):
-//                       print("failed to get messages: \(error)")
-//                   }
-//               }
-//           }
+         func listenForMessages(conversationID: String, shouldScrollToBottom: Bool) {
+               DatabaseManger.shared.getAllMessagesForConversation(with: conversationID) { [weak self] result in
+                   switch result {
+                   case .success(let messages):
+                       print("success in getting messages: \(messages)")
+                       guard !messages.isEmpty else {
+                           print("messages are empty")
+                           return
+                       }
+                       self?.messages = messages
+
+                       DispatchQueue.main.async {
+                           self?.messagesCollectionView.reloadDataAndKeepOffset()
+
+                           if shouldScrollToBottom {
+                               self?.messagesCollectionView.scrollToLastItem()
+                           }
+                       }
+
+                   case .failure(let error):
+                       print("failed to get messages: \(error)")
+                   }
+               }
+           }
 }
 
 extension ChatViewController :  InputBarAccessoryViewDelegate {
@@ -187,7 +193,12 @@ extension ChatViewController :  InputBarAccessoryViewDelegate {
 extension ChatViewController : MessagesDataSource  {
     
     func currentSender() -> SenderType {
-        return Sender(senderId: "12", displayName: "")
+            // show the chat bubble on right or left?
+            if let sender = selfSender {
+                return sender
+            }
+            fatalError("Self sender is nil, email should be cached")
+        return  Sender(photoURL: "", senderId: "12", displayName: "")
     }
     //return the message for the given index path.
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {

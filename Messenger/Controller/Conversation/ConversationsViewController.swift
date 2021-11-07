@@ -12,7 +12,8 @@ class ConversationsViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     private var conversations = [Conversation]()
-    let currentUserEmail = UserDefaults.standard.value(forKey: UserKeyName.email) as! String
+    let currentUserEmail = UserDefaults.standard.value(forKey: UserKeyName.email) as? String
+    
     
     
     override func viewDidLoad() {
@@ -22,12 +23,13 @@ class ConversationsViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        fetchConversations()
+        //fetchConversations()
         }
     
           override func viewDidAppear(_ animated: Bool) {
               super.viewDidAppear(animated)
               validateAuth()
+              fetchConversations()
               
           }
     
@@ -92,7 +94,7 @@ extension ConversationsViewController {
         
         if let reciverEmail = reciverInfo[UserKeyName.email] as? String, let reciverName = reciverInfo[UserKeyName.username] as? String{
       //  let currentUserEmail = UserDefaults.standard.value(forKey: UserKeyName.email) as! String
-            let conversationID = DatabaseManger.shared.safeEmail(userEmail: currentUserEmail) + "_" + DatabaseManger.shared.safeEmail(userEmail: reciverEmail)
+            let conversationID = DatabaseManger.shared.safeEmail(userEmail: currentUserEmail!) + "_" + DatabaseManger.shared.safeEmail(userEmail: reciverEmail)
             
        // let senderId = UserDefaults.standard.value(forKey: UserKeyName.userId) as! String
             DispatchQueue.main.async {
@@ -113,7 +115,7 @@ extension ConversationsViewController {
     
     private func fetchConversations(){
         print("inside fetch")
-        let currentEmail = DatabaseManger.shared.safeEmail(userEmail: currentUserEmail)
+        let currentEmail = DatabaseManger.shared.safeEmail(userEmail: currentUserEmail!)
         DatabaseManger.shared.getAllConversations(for: currentEmail) { result in
             switch result {
                 case .success(let convArray):
