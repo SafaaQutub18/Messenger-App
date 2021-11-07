@@ -17,13 +17,38 @@ struct Message: MessageType {
     public var messageId: String // id to de duplicate
     public var sentDate: Date // date time
     public var kind: MessageKind //
-    public var text:String
 }
 //// sender model
 struct Sender: SenderType {
     public var photoURL: String? // extend with photo URL
     public var senderId: String
     public var displayName: String
+}
+extension MessageKind {
+    var messageKindString: String {
+        switch self {
+        case .text(_):
+            return "text"
+        case .attributedText(_):
+            return "attributed_text"
+        case .photo(_):
+            return "photo"
+        case .video(_):
+            return "video"
+        case .location(_):
+            return "location"
+        case .emoji(_):
+            return "emoji"
+        case .audio(_):
+            return "audio"
+        case .contact(_):
+            return "contact"
+        case .linkPreview(_):
+            return "link_preview"
+        case .custom(_):
+            return "custom"
+        }
+    }
 }
 
 class ChatViewController: MessagesViewController  {
@@ -73,7 +98,7 @@ class ChatViewController: MessagesViewController  {
         let message_Id = createMessageId()
         
         if let self_Sender = selfSender , let messageId = message_Id  {
-            let message =  Message(sender: self_Sender, messageId: messageId, sentDate: Date(), kind: .text(messegeText), text: messegeText)
+            let message =  Message(sender: self_Sender, messageId: messageId, sentDate: Date(), kind: .text(messegeText))
         messages.append(message)
         print(message)
         messagesCollectionView.reloadData()
@@ -84,8 +109,8 @@ class ChatViewController: MessagesViewController  {
                     return
             }
                 // append to existing conversation data
-        print("مدري وش ذا" + name)
-            DatabaseManger.shared.sendMessage(to: conversationId, name: name, text: messegeText, newMessage: message) { success in
+        print("reciver name: " + name)
+            DatabaseManger.shared.sendMessage(to: conversationId, name: name, newMessage: message) { success in
                 if success {
                     print("message sent")
                 }else {
@@ -147,7 +172,7 @@ extension ChatViewController :  InputBarAccessoryViewDelegate {
         let newIdentifier = "\(otherUserEmail!)_\(currentUserEmail)_\(dateString)"
         
             print("created message id: \(newIdentifier)")
-            return newIdentifier
+            return safeEmail(userEmail: newIdentifier)
         }
     
     public static var dateFormatter: DateFormatter = {

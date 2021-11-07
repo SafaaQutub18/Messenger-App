@@ -50,3 +50,14 @@ struct ConversationKey {
     static let messagesaArray = "messagesaArray"
     static let senderID = "senderID"
 }
+struct MessageKey {
+    static let messages = "messages"
+    static let sender = "sender"
+    static let messageId = "messageId"
+    static let sentDate = "sentDate"
+    static let kind = "kind"
+    static let messageText = "messageText"
+    static let senderEmail = "senderEmail"
+    static let reciverrName = "reciverrName"
+    
+}

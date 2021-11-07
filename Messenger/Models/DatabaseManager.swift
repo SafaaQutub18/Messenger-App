@@ -254,44 +254,63 @@ extension DatabaseManger{
     
     // messages functions :
     
-    public func sendMessage(to conversationId: String, name: String,text:String, newMessage: Message, completion: @escaping (Bool) -> Void) {
+    public func sendMessage(to conversationId: String, name: String, newMessage: Message, completion: @escaping (Bool) -> Void) {
         
-        let currentName = UserDefaults.standard.value(forKey: UserKeyName.username)
+        let currentName = UserDefaults.standard.value(forKey: UserKeyName.username) as! String
         let currentEmail = safeEmail(userEmail: UserDefaults.standard.value(forKey: UserKeyName.email) as! String)
-        let conversationID = safeEmail(userEmail: conversationId)
+        var messageText = ""
         
-        let newMessageEntry: [String: Any] = [
-                        "id": newMessage.messageId,
-                        "type": newMessage.text,
-                        "content": newMessage.text,
-                        "date": newMessage.sentDate,
-                        "sender_email": currentEmail,
+        let messageDate = newMessage.sentDate
+        let dateString = ChatViewController.dateFormatter.string(from: messageDate)
+                    
+        switch newMessage.kind {
+            case .text(let text):
+            messageText = text
+            case .attributedText(_):
+                break
+            case .photo(_):
+                break
+            case .video(_):
+                break
+            case .location(_):
+                break
+            case .emoji(_):
+                break
+            case .audio(_):
+                break
+            case .contact(_):
+                break
+            case .linkPreview(_):
+                break
+            case .custom(_):
+                break
+            }
+      
+        
+        let newMessageDict: [String: Any] = [
+            MessageKey.messageId : newMessage.messageId,
+            MessageKey.kind : newMessage.kind.messageKindString,
+            MessageKey.messageText : messageText,
+            MessageKey.sentDate: dateString,
+            MessageKey.senderEmail : currentEmail,
                        // "is_read": false,
-                        "name": name,
-        ]
-        let value: [String:Any] = ["messages": [newMessageEntry]]
+            MessageKey.reciverrName : name]
         
-        database.child("\(conversationID)").setValue(value) { error, _ in
+    
+        database.child(MessageKey.messages).child(conversationId).child(newMessage.messageId).setValue(newMessageDict) { error, _ in
                   guard error == nil else {
                       completion(false)
                       return
                   }
-                  completion(true)
-              }
-        
-        self.database.child("\(conversationID)/messages").observeSingleEvent(of: .value) { [weak self] snapshot in
-                    
-                    guard let strongSelf = self else {
-                        return
-                    }
-                    
-                    guard var currentMessages = snapshot.value as? [[String: Any]] else {
-                        completion(false)
-                        return
-                    }
-            print("كرنت ماسج  \(currentMessages) as! String")
+        }
+                self.database.child(MessageKey.messages).child(conversationId).child(newMessage.messageId).observeSingleEvent(of: .value, with:  { Snapshot in
+                    completion(true)
+                }) {error in
+                    print("something wrong in insertUser func.")
+                    completion(false)
+                }
+}
     
-        
-    }
+    
 }
-}
+
