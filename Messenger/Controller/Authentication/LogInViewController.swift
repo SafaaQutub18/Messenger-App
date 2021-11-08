@@ -47,9 +47,7 @@ extension LogInViewController : RegisterDelegate{
         DispatchQueue.main.async {
             self.goToConversationsVC()
         }
-       
     }
-    
     
     func userLogInAuthntication(email: String , password: String){
         // Firebase Login

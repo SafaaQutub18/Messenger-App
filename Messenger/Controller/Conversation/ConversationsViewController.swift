@@ -13,7 +13,8 @@ class ConversationsViewController: UIViewController {
     @IBOutlet weak var imageProfileButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     
-    
+    var friendProfileImage : UIImage?
+    var profileImage : UIImage?
     private var conversations = [Conversation]()
     
     var currentUserEmail = DefaultManager.getValues(valueType: .email)
@@ -22,7 +23,7 @@ class ConversationsViewController: UIViewController {
         super.viewDidLoad()
         
         imageProfileButton.layer.cornerRadius = 20
-                imageProfileButton.layer.masksToBounds = true
+        imageProfileButton.layer.masksToBounds = true
         // set the background
         self.title = "Chat"
         tableView.dataSource = self
@@ -41,6 +42,7 @@ class ConversationsViewController: UIViewController {
           }
     
     @IBAction func addConversationButton(_ sender: UIButton) {
+        
         let alert = UIAlertController(title: "New Friend *_*", message: "Add a new Friend",preferredStyle: .alert)
         
         alert.addTextField(configurationHandler: nil)
@@ -96,6 +98,10 @@ class ConversationsViewController: UIViewController {
 extension ConversationsViewController {
     
     func addNewConversation(reciverInfo : [String: Any]){
+        // check for friend profile :
+        if let imagePath = reciverInfo[UserKeyName.profileImageURL] as? String {
+            prepareFriendImage(urlImage: imagePath )
+            }
         // create conv. id  :
         
         if let reciverEmail = reciverInfo[UserKeyName.email] as? String, let reciverName = reciverInfo[UserKeyName.username] as? String , let currentEmail = currentUserEmail {
@@ -150,8 +156,9 @@ extension ConversationsViewController {
                
                 if let path = c_user[UserKeyName.profileImageURL] as? String {
                     DefaultManager.saveValues(value: path, valueType: .profileImageURL)
-                if let profileImage = StorageManager.shared.downloadURL(for: path) {
-                    self.imageProfileButton.setImage(profileImage, for: .normal)
+                if let profile_Image = StorageManager.shared.downloadURL(for: path) {
+                    self.profileImage = profile_Image
+                    self.imageProfileButton.setImage(profile_Image, for: .normal)
                 }
                 }
             case .failure(let error):
@@ -160,6 +167,13 @@ extension ConversationsViewController {
                 }
         })
     }
+    func prepareFriendImage(urlImage : String){
+        
+        if let profile_Image = StorageManager.shared.downloadURL(for: urlImage) {
+            self.friendProfileImage = profile_Image
+            
+        }
+    }
 }
 extension ConversationsViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -167,9 +181,14 @@ extension ConversationsViewController : UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell", for: indexPath)
-        cell.textLabel?.text = conversations[indexPath.row].other_user_name
-        cell.accessoryType = .disclosureIndicator
+        let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell", for: indexPath) as! ConvTableViewCell
+       // cell.accessoryType = .disclosureIndicator
+        
+        cell.friendNameLabel.text = conversations[indexPath.row].other_user_name
+        
+        guard let frind_Image = friendProfileImage else{return cell}
+        cell.frindPicture = frind_Image
+        
         return cell
     }
     
@@ -185,6 +204,9 @@ extension ConversationsViewController : UITableViewDelegate, UITableViewDataSour
             chatVC.otherUserEmail = conversations[indexPath.row].other_user_email
             chatVC.conversationId = conversations[indexPath.row].conversationId
             self.navigationController?.pushViewController(chatVC , animated: true)
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
 }
 
