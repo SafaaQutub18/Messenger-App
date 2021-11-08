@@ -12,10 +12,19 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var imageProfileBt: UIButton!
     @IBOutlet weak var logOutBt: UIButton!
     @IBOutlet weak var nameLabel: UILabel!
+    var user_name: String?
     var delegate : profileDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //logOutBt.layer.cornerRadius = 120
+        //logOutBt.layer.masksToBounds = true
+        
+        imageProfileBt.layer.cornerRadius = 30
+        imageProfileBt.layer.masksToBounds = true
+        
+        nameLabel.text = user_name
 
         // Do any additional setup after loading the view.
     }
@@ -28,9 +37,9 @@ class ProfileViewController: UIViewController {
             UserDefaults.standard.removeObject(forKey: UserKeyName.userObj)
             try FirebaseAuth.Auth.auth().signOut()
             DispatchQueue.main.async {
+                self.delegate?.logOutSuccesful()
                 self.navigationController?.popViewController(animated: true)
             }
-            
            }
            catch {
            }

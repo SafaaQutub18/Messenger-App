@@ -8,7 +8,8 @@
 import UIKit
 import FirebaseAuth
 
-class ConversationsViewController: UIViewController {
+class ConversationsViewController: UIViewController , profileDelegate{
+    
 
     @IBOutlet weak var imageProfileButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
@@ -81,18 +82,20 @@ class ConversationsViewController: UIViewController {
     }
     
     @IBAction func logOutButton(_ sender: UIButton) {
-        do {
-            UserDefaults.standard.removeObject(forKey: UserKeyName.userObj)
-            try FirebaseAuth.Auth.auth().signOut()
-            DispatchQueue.main.async {
-                self.navigationController?.popViewController(animated: true)
-            }
-            
-           }
-           catch {
-           }
+        
+        
+              let profileVC = storyboard?.instantiateViewController(identifier: "ProfileViewController") as! ProfileViewController
+              guard let name = DefaultManager.getValues(valueType: .userName) else{return}
+              
+        profileVC.user_name = name
+              
+            profileVC.delegate = self
+              self.navigationController?.pushViewController(profileVC , animated: true)        
     }
-    
+
+    func logOutSuccesful() {
+        self.navigationController?.popViewController(animated: true)
+        }
 }
 
 extension ConversationsViewController {
